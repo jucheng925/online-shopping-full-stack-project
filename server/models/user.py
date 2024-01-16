@@ -11,7 +11,6 @@ class User(db.Model, SerializerMixin):
     _password_hash = db.Column(db.String)
     isAdmin = db.Column(db.Boolean, default=False)
 
-
     @hybrid_property
     def password_hash(self):
         raise Exception("Can not show password")
@@ -23,3 +22,6 @@ class User(db.Model, SerializerMixin):
 
     def authenticate(self, password):
         return bcrypt.check_password_hash(self._password_hash, password.encode('utf-8'))
+    
+    def __repr__(self):
+        return f'<User id={self.id} username={self.username}>'

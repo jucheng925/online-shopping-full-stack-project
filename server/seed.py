@@ -2,7 +2,7 @@ from config import app, db
 
 from faker import Faker
 
-from models.user import User
+from models.models import User
 
 if __name__ == "__main__":
 	with app.app_context():
