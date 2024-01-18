@@ -28,7 +28,7 @@ if __name__ == "__main__":
 				isAdmin = fake.boolean()
 			)
 
-			user.password_hash = user.username + 'password'
+			user.password_hash = user.username + 'test'
 
 			users.append(user)
 			
