@@ -1,10 +1,8 @@
 import { useState } from 'react'
 import '../App.css'
-import { BrowserRouter as Router, Routes, Route} from "react-router-dom"
-import Signup from './Signup'
-import Login from './Login'
-import Home from './Home'
+import { Outlet} from "react-router-dom"
 import NavBar from './NavBar'
+
 
 function App() {
   const [currentUser, setCurrentUser] = useState(null);
@@ -20,21 +18,15 @@ function App() {
     setLoggedIn(false);
   }
 
-  function NoMatch() {
-    return (
-      <h2> 404: Page Not Found </h2>
-    )
-  }
+
 
   return (
-    <Router>
-      <NavBar />
-        <Routes>
-          <Route path="/" element={<Home/>} />
-          <Route path ="/signup" element={<Signup/>} />
-          <Route path ="*" element={<NoMatch/>} />
-        </Routes>
-    </Router>
+    <>
+      <header>
+        <NavBar currentUser={currentUser}/>
+      </header>
+      <Outlet/>
+    </>
   )
 }
 

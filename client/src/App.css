@@ -9,3 +9,19 @@
   padding: 2em;
 }
 
+.nav-link{
+  display: inline-block;
+  box-sizing: border-box;
+  width: 100px;
+  padding: 5px;
+  margin: 0 6px 6px;
+  background: rgb(55, 126, 185);
+  text-decoration: none;
+  text-align: center;
+  font-size: min(10vw, 15px) ;
+  color: white;
+}
+
+.active {
+  color: red;
+}

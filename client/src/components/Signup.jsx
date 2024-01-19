@@ -2,7 +2,7 @@ import React from 'react'
 import * as yup from 'yup'
 import {useFormik} from 'formik'
 
-const Signup = () => {
+const Signup = ({login}) => {
     const formSchema = yup.object().shape({
         username: yup.string().required("Username is required").max(10),
         password: yup.string().required("Password is required"),
@@ -34,7 +34,7 @@ const Signup = () => {
             body: JSON.stringify(values, null, 2),
         })
         .then(resp => resp.json())
-        .then(data => console.log(data))
+        .then(data => login(data))
 
     }
 

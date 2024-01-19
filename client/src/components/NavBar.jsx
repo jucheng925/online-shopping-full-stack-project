@@ -1,16 +1,25 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 
-const NavBar = () => {
+const NavBar = ({currentUser}) => {
+  const displayLogout = () =>{
+    return currentUser ? (
+      <NavLink to= "/logout" className="nav-link" style={{padding: 5}}>
+      Logout
+    </NavLink>
+    ) :
+    null
+  }
+
   return (
     <nav style={{margin: 10}}>
-      <Link to= "/" style={{padding: 5}}>
+      <NavLink to= "/" className="nav-link" style={{padding: 5}}>
         Home
-      </Link>
-      <Link to= "/signup" style={{padding: 5}}>
+      </NavLink>
+      <NavLink to= "/signup" className="nav-link" style={{padding: 5}}>
         Signup
-      </Link>
-
+      </NavLink>
+      {displayLogout()}
     </nav>
   )
 }
