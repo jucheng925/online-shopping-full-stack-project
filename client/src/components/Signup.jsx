@@ -4,8 +4,8 @@ import {useFormik} from 'formik'
 
 const Signup = () => {
     const formSchema = yup.object().shape({
-        username: yup.string().required("Must enter a username").max(10),
-        password: yup.string().required("Must enter a password").max(15),
+        username: yup.string().required("Username is required").max(10),
+        password: yup.string().required("Password is required"),
         confirmpassword: yup.string().oneOf([yup.ref('password')], 'Passwords must match'),
         isAdmin: yup.string().oneOf(["yes", "no"]).required("Please select one")
     });
@@ -37,25 +37,30 @@ const Signup = () => {
         .then(data => console.log(data))
 
     }
+
+    const displayErrors =(error) => {
+        return error ? <p style={{color: "red"}}>{error}</p> : null
+    }
+
   return (
     <form onSubmit={formik.handleSubmit}>
         <label htmlFor='username'>Username: </label>
         <input type="text" id="username" value={formik.values.username} onChange={formik.handleChange} autoComplete='on'/>
         <br />
-        <p style={{color: "red"}}> {formik.errors.username}</p>
+        {displayErrors(formik.errors.username)}
         <label htmlFor="password">Password: </label>
         <input type="password" id="password" value={formik.values.password} onChange={formik.handleChange} autoComplete='new-password'/>
         <br/>
-        <p style={{color: "red"}}> {formik.errors.password}</p>
+        {displayErrors(formik.errors.password)}
         <label htmlFor="confirmpassword">Password Confirmation: </label>
         <input type="password" id='confirmpassword' value={formik.confirmpassword} onChange={formik.handleChange} autoComplete='new-password'/>
-        <p style={{color: "red"}}> {formik.errors.confirmpassword}</p>
+        {displayErrors(formik.errors.confirmpassword)}
         <h4>Is Admin?</h4>
         <label htmlFor="yes">YES</label>
         <input type="radio" name="isAdmin" value="yes" id="yes" checked={formik.values.isAdmin == 'yes'} onChange={formik.handleChange}/>
         <label htmlFor="no">NO</label>
         <input type="radio" name="isAdmin" value="no" id="no" checked={formik.values.isAdmin == 'no'} onChange={formik.handleChange}/>
-        <p style={{color: "red"}}> {formik.errors.isAdmin}</p>
+        {displayErrors(formik.errors.isAdmin)}
         <br/>
         <button type="submit">Sign Up</button>
     </form>
