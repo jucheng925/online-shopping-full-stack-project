@@ -11,22 +11,7 @@ const NavBar = () => {
     }).then(() => logout())
   }
 
-if (currentUser) {
-  return (
-        <nav style={{margin: 10}}>
-        <NavLink to= "/" className="nav-link">
-          Home
-        </NavLink>
-        <NavLink to= "/signup" className="nav-link">
-          Signup
-        </NavLink>
-        <button className="nav-link" onClick={handleLogout}>
-          Logout
-        </button>
-        </nav>
-  );
-} else {
-    return (
+return (
     <nav style={{margin: 10}}>
       <NavLink to= "/" className="nav-link">
         Home
@@ -34,8 +19,14 @@ if (currentUser) {
       <NavLink to= "/signup" className="nav-link">
         Signup
       </NavLink>
+      <NavLink to="/stores" className="nav-link">
+        Stores
+      </NavLink>
+      {currentUser ? <button className="nav-link" onClick={handleLogout}>
+        Logout
+      </button> : null }
     </nav>
-    );
-}}
+  )
+}
 
 export default NavBar

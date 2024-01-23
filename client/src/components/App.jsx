@@ -7,9 +7,7 @@ import { UserProvider } from '../context/UserContext';
 function App() {
   return (
     <UserProvider>
-      <header>
-        <NavBar/>
-      </header>
+      <NavBar/>
       <Outlet/>
     </UserProvider>
   )

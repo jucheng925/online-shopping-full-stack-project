@@ -2,12 +2,14 @@ import React from 'react'
 import App from './components/App.jsx'
 import Home from './pages/Home.jsx'
 import Signup from './components/Signup'
-import NoMatch from './pages/NoMatch.jsx'
+import ErrorPage from './pages/error_page.jsx'
+import Storelist from './components/Storelist.jsx'
 
 const routes = [
   {
     path: "/",
     element: <App />,
+    errorElement: <ErrorPage/>,
     children: [
       {
         path: "/",
@@ -18,8 +20,8 @@ const routes = [
         element: <Signup/>
       },
       {
-        path: "*",
-        element: <NoMatch/>
+        path: "/stores",
+        element: <Storelist/>
       }
     ]
   }
