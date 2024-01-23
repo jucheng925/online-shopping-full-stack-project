@@ -16,9 +16,6 @@ return (
       <NavLink to= "/" className="nav-link">
         Home
       </NavLink>
-      <NavLink to= "/signup" className="nav-link">
-        Signup
-      </NavLink>
       <NavLink to="/stores" className="nav-link">
         Stores
       </NavLink>

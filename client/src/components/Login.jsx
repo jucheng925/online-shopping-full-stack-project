@@ -2,10 +2,11 @@ import React, {useContext} from 'react'
 import * as yup from 'yup'
 import {useFormik} from 'formik'
 import { UserContext } from '../context/UserContext'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 const Login = () => {
   const {login} = useContext(UserContext)
+  const navigate = useNavigate()
 
   const formSchema = yup.object().shape({
       username: yup.string().required("Username is required").max(10),
@@ -33,6 +34,7 @@ const Login = () => {
       .then(resp => resp.json())
       .then(data => {
           login(data)
+          navigate("/stores")
       })
 
   }
