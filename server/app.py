@@ -24,14 +24,16 @@ class Signup(Resource):
     
     #need to come back and fix
     except IntegrityError as error:
-       return {"error": "eroor"}, 422
+       return {"error": "error"}, 422
     
 class CheckSession(Resource):
    def get(self):
       user = User.query.filter(User.id == session.get('user_id')).first()
       if user:
+         print(session.get('user_id'))
          return user.to_dict(), 200
       else:
+         print("Logged out")
          return {"message" : "Not Authorized"}, 401
 
 class Login(Resource):

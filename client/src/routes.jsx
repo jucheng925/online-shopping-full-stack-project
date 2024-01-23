@@ -1,6 +1,6 @@
 import React from 'react'
 import App from './components/App.jsx'
-import Home from './components/Home'
+import Home from './pages/Home.jsx'
 import Signup from './components/Signup'
 import NoMatch from './pages/NoMatch.jsx'
 
@@ -11,7 +11,7 @@ const routes = [
     children: [
       {
         path: "/",
-        element: <Home/>
+        element: <Home/>,
       },
       {
         path: "/signup",

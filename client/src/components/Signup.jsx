@@ -1,8 +1,14 @@
 import React from 'react'
+import { useNavigate} from 'react-router-dom'
 import * as yup from 'yup'
 import {useFormik} from 'formik'
+import { useContext } from 'react'
+import { UserContext } from '../context/UserContext'
 
-const Signup = ({login}) => {
+const Signup = () => {
+    const {login} = useContext(UserContext)
+    const navigate = useNavigate()
+
     const formSchema = yup.object().shape({
         username: yup.string().required("Username is required").max(10),
         password: yup.string().required("Password is required"),
@@ -25,7 +31,7 @@ const Signup = ({login}) => {
             values.isAdmin = true :
             values.isAdmin = false;
         
-        fetch("/api/users", {
+        fetch("/api/signup", {
             method: "POST",
             headers: {
                 "Content-Type" : "application/json",
@@ -34,7 +40,10 @@ const Signup = ({login}) => {
             body: JSON.stringify(values, null, 2),
         })
         .then(resp => resp.json())
-        .then(data => login(data))
+        .then(data => {
+            login(data)
+            navigate("/")
+        })
 
     }
 
