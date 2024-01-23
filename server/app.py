@@ -23,17 +23,18 @@ class Signup(Resource):
         return user.to_dict(), 201
     
     #need to come back and fix
-    except IntegrityError as error:
-       return {"error": "error"}, 422
+    except IntegrityError:
+       return {"error": "Username already exist"}, 422
+    except ValueError as err:
+       return {"error" : str(err)}, 422
+       
     
 class CheckSession(Resource):
    def get(self):
       user = User.query.filter(User.id == session.get('user_id')).first()
       if user:
-         print(session.get('user_id'))
          return user.to_dict(), 200
       else:
-         print("Logged out")
          return {"message" : "Not Authorized"}, 401
 
 class Login(Resource):

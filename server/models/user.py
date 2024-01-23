@@ -7,7 +7,7 @@ from config import db, bcrypt
 class User(db.Model, SerializerMixin):
     __tablename__ = "users"
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(10), unique=True, nullable=False)
+    username = db.Column(db.String(15), unique=True, nullable=False)
     _password_hash = db.Column(db.String)
     isAdmin = db.Column(db.Boolean, default=False)
 
@@ -22,6 +22,16 @@ class User(db.Model, SerializerMixin):
 
     def authenticate(self, password):
         return bcrypt.check_password_hash(self._password_hash, password.encode('utf-8'))
+    
+    @validates("username")
+    def check_username(self, key, username):
+        length = len(username)
+        if not username:
+            raise ValueError("Username must exist")
+        elif (length < 3 or length > 15):
+            raise ValueError("Username must be between 3 and 15 characters long")
+        return username
+
     
     def __repr__(self):
         return f'<User id={self.id} username={self.username}>'

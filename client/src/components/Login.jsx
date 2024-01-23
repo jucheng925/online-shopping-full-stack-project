@@ -9,7 +9,7 @@ const Login = () => {
   const navigate = useNavigate()
 
   const formSchema = yup.object().shape({
-      username: yup.string().required("Username is required").max(10),
+      username: yup.string().required("Username is required").max(15).min(3),
       password: yup.string().required("Password is required"),
   });
 
