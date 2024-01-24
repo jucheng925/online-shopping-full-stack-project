@@ -62,34 +62,38 @@ const Signup = () => {
     }
 
   return (
-    <>
-    <h1>SignUp</h1>
-    <Errors error={error}/>
+    <div className='body'>
     <form onSubmit={formik.handleSubmit}>
-        <label htmlFor='username'>Username: </label>
-        <input type="text" id="username" value={formik.values.username} onChange={formik.handleChange} autoComplete='on'/>
-        <br />
-        {displayErrors(formik.errors.username)}
+    <h1>SignUp</h1>
+    <div className='formcontainer'>
+        <hr />
+        <Errors error={error}/>
+        <div className='container'>
+            <label htmlFor='username'><strong>Username: </strong></label>
+            <input type="text" id="username" value={formik.values.username} onChange={formik.handleChange} autoComplete='on'/>
+            {displayErrors(formik.errors.username)}
 
-        <label htmlFor="password">Password: </label>
-        <input type="password" id="password" value={formik.values.password} onChange={formik.handleChange} autoComplete='new-password'/>
-        <br/>
-        {displayErrors(formik.errors.password)}
+            <label htmlFor="password"><strong>Password: </strong></label>
+            <input type="password" id="password" value={formik.values.password} onChange={formik.handleChange} autoComplete='new-password'/>
+            {displayErrors(formik.errors.password)}
 
-        <label htmlFor="confirmpassword">Password Confirmation: </label>
-        <input type="password" id='confirmpassword' value={formik.confirmpassword} onChange={formik.handleChange} autoComplete='new-password'/>
-        {displayErrors(formik.errors.confirmpassword)}
-        
-        <p>Is Admin?</p>
-        <label htmlFor="yes">YES</label>
-        <input type="radio" name="isAdmin" value="yes" id="yes" checked={formik.values.isAdmin == 'yes'} onChange={formik.handleChange}/>
-        <label htmlFor="no">NO</label>
-        <input type="radio" name="isAdmin" value="no" id="no" checked={formik.values.isAdmin == 'no'} onChange={formik.handleChange}/>
-        {displayErrors(formik.errors.isAdmin)}
-        <br/>
-        <button type="submit">Sign Up</button>
+            <label htmlFor="confirmpassword"><strong>Password Confirmation: </strong></label>
+            <input type="password" id='confirmpassword' value={formik.confirmpassword} onChange={formik.handleChange} autoComplete='new-password'/>
+            {displayErrors(formik.errors.confirmpassword)}
+        </div>
+        <div className='container'>
+            <label><strong>Is Admin?     </strong></label>
+
+            <label htmlFor="yes" className='radio'>YES</label>
+            <input type="radio" className='radio' name="isAdmin" value="yes" id="yes" checked={formik.values.isAdmin == 'yes'} onChange={formik.handleChange}/>
+            <label htmlFor="no" className='radio'>NO</label>
+            <input type="radio" className='radio' name="isAdmin" value="no" id="no" checked={formik.values.isAdmin == 'no'} onChange={formik.handleChange}/>            
+            {displayErrors(formik.errors.isAdmin)}
+        </div>
+        <button className='radio' type="submit">Sign Up</button>
+    </div>
     </form>
-    </>
+    </div>
   )
 }
 

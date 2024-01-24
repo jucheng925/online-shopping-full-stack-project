@@ -44,21 +44,26 @@ const Login = () => {
   }
 
 return (
-  <>
+  <div className='body'>
     <form onSubmit={formik.handleSubmit}>
-        <label htmlFor='username'>Username: </label>
-        <input type="text" id="username" value={formik.values.username} onChange={formik.handleChange} autoComplete='on'/>
-        <br />
-        {displayErrors(formik.errors.username)}
-        <label htmlFor="password">Password: </label>
-        <input type="password" id="password" value={formik.values.password} onChange={formik.handleChange} autoComplete='new-password'/>
-        <br/>
-        {displayErrors(formik.errors.password)}
-        <br/>
+        <h1>Login</h1>
+        <div className='formcontainer'>
+        <hr />
+        <div className='container'>
+            <label htmlFor='username'><strong>Username: </strong></label>
+            <input type="text" id="username" value={formik.values.username} onChange={formik.handleChange} autoComplete='on'/>
+            {displayErrors(formik.errors.username)}
+            <label htmlFor="password"><strong>Password:</strong></label>
+            <input type="password" id="password" value={formik.values.password} onChange={formik.handleChange} autoComplete='new-password'/>
+            {displayErrors(formik.errors.password)}
+
+        </div>
         <button type="submit">Log In</button>
+        </div>
+        <p><strong>Not a current user?</strong> <Link to="/signup">Signup</Link></p>
     </form>
-    <p>Not a current user? <Link to="/signup">Signup</Link></p>
-  </>
+
+  </div>
 )}
 
 export default Login
