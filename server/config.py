@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, render_template
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import MetaData
 from flask_migrate import Migrate
@@ -20,7 +20,13 @@ naming_convention = {
 
 metadata = MetaData(naming_convention=naming_convention)
 
-app = Flask(__name__)
+app = Flask(
+    __name__,
+    static_url_path='',
+    static_folder='../client/dist',
+    template_folder='../client/dist'
+)
+
 app.secret_key = os.getenv("FLASK_SECRET_KEY")
 app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("DATABASE_URI")
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
@@ -34,3 +40,9 @@ bcrypt = Bcrypt(app=app)
 api = Api(app=app)
 
 CORS(app)
+
+
+@app.route('/')
+@app.route('/<int:id>')
+def index(id=0):
+    return render_template("index.html")
