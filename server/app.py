@@ -1,5 +1,5 @@
 from flask_restful import Resource
-from flask import request, session
+from flask import request, session, render_template
 from sqlalchemy.exc import IntegrityError
 
 from config import app, db, api
@@ -54,10 +54,15 @@ class Logout(Resource):
       session["user_id"] = None
       return {"message": 'Log out'}, 204
 
-api.add_resource(Signup, '/signup')
-api.add_resource(CheckSession, '/check_session')
-api.add_resource(Login, "/login")
-api.add_resource(Logout, '/logout')
+api.add_resource(Signup, '/api/signup')
+api.add_resource(CheckSession, '/api/check_session')
+api.add_resource(Login, "/api/login")
+api.add_resource(Logout, '/api/logout')
+
+@app.route('/')
+@app.route('/<int:id>')
+def index(id=0):
+    return render_template("index.html")
 
 if __name__ == "__main__":
-  app.run(port=5555, debug=True)
+  app.run(port=8000, debug=True)

@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import MetaData
 from flask_migrate import Migrate
@@ -42,7 +42,7 @@ api = Api(app=app)
 CORS(app)
 
 
-@app.route('/')
-@app.route('/<int:id>')
-def index(id=0):
-    return render_template("index.html")
+# @app.route('/')
+# @app.route('/<int:id>')
+# def index(id=0):
+#     return render_template("index.html")
