@@ -1,13 +1,23 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { UserContext } from '../context/UserContext'
+import Store from './Store'
 
 const Storelist = () => {
   const {currentUser} = useContext(UserContext)
+  const [stores, setStores] = useState([])
+
+  useEffect(()=> {
+    fetch("/api/storeslist")
+    .then(resp => resp.json())
+    .then(data => setStores(data))
+  }, [currentUser])
 
   if (currentUser) {
     return (
       <div>
-        List of Stores
+        {stores.map((store) => (
+          <Store key={store.id} store={store}></Store>
+        ))}
       </div>
     )
   } else {
