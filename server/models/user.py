@@ -13,6 +13,8 @@ class User(db.Model, SerializerMixin):
 
     stores = db.relationship('Store', back_populates='owner')
 
+    serialize_rules = ("-stores.owner", )
+
     @hybrid_property
     def password_hash(self):
         raise Exception("Can not show password")

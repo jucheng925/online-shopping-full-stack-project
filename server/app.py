@@ -3,7 +3,7 @@ from flask import request, session, render_template
 from sqlalchemy.exc import IntegrityError
 
 from config import app, db, api
-from models.models import User
+from models.models import User, Store
 
 class Signup(Resource):
   def post(self):
@@ -53,11 +53,26 @@ class Logout(Resource):
    def delete(self):
       session["user_id"] = None
       return {"message": 'Log out'}, 204
+   
+class StoreList(Resource):
+   def get(self):
+      user = User.query.filter(User.id == session.get('user_id')).first()
+      if user.isAdmin == False:
+         stores = Store.query.all()
+         stores_dict = [store.to_dict() for store in stores]
+         return stores_dict, 200
+      else:
+         stores = Store.query.filter(Store.user_id==user.id).all()
+         stores_dict = [store.to_dict() for store in stores]
+         return stores_dict, 200
+
+
 
 api.add_resource(Signup, '/api/signup')
 api.add_resource(CheckSession, '/api/check_session')
-api.add_resource(Login, "/api/login")
+api.add_resource(Login, '/api/login')
 api.add_resource(Logout, '/api/logout')
+api.add_resource(StoreList, '/api/storeslist')
 
 @app.route('/')
 @app.route('/<int:id>')
@@ -65,4 +80,4 @@ def index(id=0):
     return render_template("index.html")
 
 if __name__ == "__main__":
-  app.run(port=8000, debug=True)
+  app.run(port=5555, debug=True)
