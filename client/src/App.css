@@ -42,3 +42,11 @@
   color: red;
 }
 
+img {
+  max-width: 200px;
+  height: auto;
+}
+
+img:hover {
+  opacity: 0.5;
+}

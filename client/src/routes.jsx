@@ -4,6 +4,7 @@ import Home from './pages/Home.jsx'
 import Signup from './components/Signup'
 import ErrorPage from './pages/error_page.jsx'
 import Storelist from './components/Storelist.jsx'
+import ItemsList from './components/ItemsList.jsx'
 
 const routes = [
   {
@@ -22,6 +23,10 @@ const routes = [
       {
         path: "/stores",
         element: <Storelist/>
+      },
+      {
+        path: "/stores/:id",
+        element: <ItemsList/>
       }
     ]
   }

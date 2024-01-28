@@ -14,10 +14,10 @@ const Storelist = () => {
 
   if (currentUser) {
     return (
-      <div>
-        {stores.map((store) => (
-          <Store key={store.id} store={store}></Store>
-        ))}
+      <div className="container">
+          {stores.map((store) => (
+            <Store key={store.id} store={store}></Store>
+          ))}
       </div>
     )
   } else {

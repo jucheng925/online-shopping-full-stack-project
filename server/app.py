@@ -57,14 +57,17 @@ class Logout(Resource):
 class StoreList(Resource):
    def get(self):
       user = User.query.filter(User.id == session.get('user_id')).first()
-      if user.isAdmin == False:
-         stores = Store.query.all()
-         stores_dict = [store.to_dict() for store in stores]
-         return stores_dict, 200
+      if user:
+         if user.isAdmin == False:
+            stores = Store.query.all()
+            stores_dict = [store.to_dict() for store in stores]
+            return stores_dict, 200
+         else:
+            stores = Store.query.filter(Store.user_id==user.id).all()
+            stores_dict = [store.to_dict() for store in stores]
+            return stores_dict, 200
       else:
-         stores = Store.query.filter(Store.user_id==user.id).all()
-         stores_dict = [store.to_dict() for store in stores]
-         return stores_dict, 200
+            return {"message" : "Not Authorized"}, 401
 
 
 
