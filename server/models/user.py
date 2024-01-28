@@ -11,6 +11,8 @@ class User(db.Model, SerializerMixin):
     _password_hash = db.Column(db.String)
     isAdmin = db.Column(db.Boolean, default=False)
 
+    stores = db.relationship('Store', back_populates='owner')
+
     @hybrid_property
     def password_hash(self):
         raise Exception("Can not show password")
