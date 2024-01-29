@@ -47,7 +47,7 @@ class Login(Resource):
          session["user_id"] = user.id
          return user.to_dict(), 200
       else:
-         return {"message", "Incorrect username or password"}, 422
+         return {"errors": "Incorrect username or password"}, 422
       
 class Logout(Resource):
    def delete(self):
@@ -68,6 +68,24 @@ class StoreList(Resource):
             return stores_dict, 200
       else:
             return {"message" : "Not Authorized"}, 401
+      
+   def post(self):
+      try:
+         data = request.get_json()
+         store_name = data.get("storeName")
+         description = data.get("description")
+         image = data.get("image")
+         user_id = session.get('user_id')
+
+         new_store = Store(store_name=store_name, description=description, 
+                           image=image, user_id=user_id)
+         
+         db.session.add(new_store)
+         db.session.commit()
+
+         return new_store.to_dict(), 201
+      except IntegrityError:
+         return {"error": "Store name already exist"}, 422
 
 
 
