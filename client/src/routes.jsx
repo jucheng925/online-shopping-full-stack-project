@@ -1,8 +1,8 @@
 import React from 'react'
 import App from './components/App.jsx'
-import Home from './pages/Home.jsx'
+import Home from './components/Home.jsx'
 import Signup from './components/Signup'
-import ErrorPage from './pages/error_page.jsx'
+import ErrorPage from './components/ErrorPage.jsx'
 import Storelist from './components/Storelist.jsx'
 import ItemsList from './components/ItemsList.jsx'
 

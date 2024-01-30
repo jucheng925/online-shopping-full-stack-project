@@ -1,10 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { UserContext } from '../context/UserContext'
 import Store from './Store'
+import StoreForm from './StoreForm'
 
 const Storelist = () => {
   const {currentUser} = useContext(UserContext)
   const [stores, setStores] = useState([])
+  const [showForm, setShowForm] = useState(false)
 
   useEffect(()=> {
     fetch("/api/storeslist")
@@ -12,12 +14,29 @@ const Storelist = () => {
     .then(data => setStores(data))
   }, [currentUser])
 
+  const AdminButton = () => {
+    return currentUser.isAdmin ? (
+      <button style={{width:"40%"}} onClick={()=>setShowForm(!showForm)}>{showForm ? "Close Form" : "Create a New Store"}</button>
+    ) : null
+  }
+
+  const addStore = (newStore) =>{
+    const newArray = [...stores, newStore]
+    setStores(newArray)
+    setShowForm(false)
+  }
+
   if (currentUser) {
     return (
-      <div className="container">
-          {stores.map((store) => (
-            <Store key={store.id} store={store}></Store>
-          ))}
+      <div>
+        <AdminButton/>
+        {showForm ? <StoreForm addStore={addStore}/> : null}
+
+        <div className="container">
+            {stores.map((store) => (
+              <Store key={store.id} store={store}></Store>
+            ))}
+        </div>
       </div>
     )
   } else {

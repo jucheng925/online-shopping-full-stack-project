@@ -3,7 +3,7 @@ import { useNavigate} from 'react-router-dom'
 import * as yup from 'yup'
 import {useFormik} from 'formik'
 import { UserContext } from '../context/UserContext'
-import Errors from './Errors'
+
 
 const Signup = () => {
     const [error, setError] = useState(null)
@@ -21,6 +21,7 @@ const Signup = () => {
         initialValues: {
             username: "",
             password: "",
+            confirmpassword: "",
             isAdmin: '',
         },
         validationSchema: formSchema,
@@ -67,7 +68,7 @@ const Signup = () => {
     <h1>SignUp</h1>
     <div className='formcontainer'>
         <hr />
-        <Errors error={error}/>
+        {displayErrors(error)}
         <div className='container'>
             <label htmlFor='username'><strong>Username: </strong></label>
             <input type="text" id="username" value={formik.values.username} onChange={formik.handleChange} autoComplete='on'/>
@@ -78,7 +79,7 @@ const Signup = () => {
             {displayErrors(formik.errors.password)}
 
             <label htmlFor="confirmpassword"><strong>Password Confirmation: </strong></label>
-            <input type="password" id='confirmpassword' value={formik.confirmpassword} onChange={formik.handleChange} autoComplete='new-password'/>
+            <input type="password" id='confirmpassword' value={formik.values.confirmpassword} onChange={formik.handleChange} autoComplete='new-password'/>
             {displayErrors(formik.errors.confirmpassword)}
         </div>
         <div className='container'>
@@ -90,7 +91,7 @@ const Signup = () => {
             <input type="radio" className='radio' name="isAdmin" value="no" id="no" checked={formik.values.isAdmin == 'no'} onChange={formik.handleChange}/>            
             {displayErrors(formik.errors.isAdmin)}
         </div>
-        <button className='radio' type="submit">Sign Up</button>
+        <button type="submit">Sign Up</button>
     </div>
     </form>
     </div>

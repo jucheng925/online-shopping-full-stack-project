@@ -1,10 +1,11 @@
-import React, {useContext} from 'react'
+import React, {useContext, useState} from 'react'
 import * as yup from 'yup'
 import {useFormik} from 'formik'
 import { UserContext } from '../context/UserContext'
 import { Link, useNavigate } from 'react-router-dom'
 
 const Login = () => {
+  const [error, setError] = useState(null)
   const {login} = useContext(UserContext)
   const navigate = useNavigate()
 
@@ -31,12 +32,16 @@ const Login = () => {
           },
           body: JSON.stringify(values, null, 2),
       })
-      .then(resp => resp.json())
-      .then(data => {
-          login(data)
-          navigate("/stores")
+      .then((resp) => {
+        if (resp.ok) {
+            resp.json().then((data) => {
+                login(data)
+                navigate("/stores")
+            })
+        } else {
+            resp.json().then((err)=> setError(err.errors))
+        }
       })
-
   }
 
   const displayErrors =(error) => {
@@ -59,6 +64,7 @@ return (
 
         </div>
         <button type="submit">Log In</button>
+        {displayErrors(error)}
         </div>
         <p><strong>Not a current user?</strong> <Link to="/signup">Signup</Link></p>
     </form>

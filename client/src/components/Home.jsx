@@ -1,16 +1,9 @@
 import React, {useContext, useEffect} from 'react'
-import Login from '../components/Login'
+import Login from './Login'
 import { UserContext } from '../context/UserContext';
 
 const Home = () => {
-  const {login, currentUser} = useContext(UserContext)
-  useEffect(() => {
-    fetch("/api/check_session").then((resp) => {
-      if (resp.ok) {
-        resp.json().then((user) => login(user));
-      }
-    });
-  }, []);
+  const { currentUser} = useContext(UserContext)
 
   return (
     <div>
