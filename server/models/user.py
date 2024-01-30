@@ -11,9 +11,9 @@ class User(db.Model, SerializerMixin):
     _password_hash = db.Column(db.String)
     isAdmin = db.Column(db.Boolean, default=False)
 
-    stores = db.relationship('Store', back_populates='owner')
+    stores = db.relationship('Store', back_populates='owner', cascade='all, delete-orphan')
 
-    serialize_rules = ("-stores.owner", )
+    serialize_rules = ('-stores.owner',  )
 
     @hybrid_property
     def password_hash(self):

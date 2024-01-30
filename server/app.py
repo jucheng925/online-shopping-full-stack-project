@@ -3,7 +3,7 @@ from flask import request, session, render_template
 from sqlalchemy.exc import IntegrityError
 
 from config import app, db, api
-from models.models import User, Store
+from models.models import User, Store, Item
 
 class Signup(Resource):
   def post(self):
@@ -74,11 +74,11 @@ class StoreList(Resource):
          data = request.get_json()
          store_name = data.get("storeName")
          description = data.get("description")
-         image = data.get("image")
+         img_url = data.get("image")
          user_id = session.get('user_id')
 
          new_store = Store(store_name=store_name, description=description, 
-                           image=image, user_id=user_id)
+                           img_url=img_url, user_id=user_id)
          
          db.session.add(new_store)
          db.session.commit()
@@ -86,7 +86,12 @@ class StoreList(Resource):
          return new_store.to_dict(), 201
       except IntegrityError:
          return {"error": "Store name already exist"}, 422
-
+      
+class ItemsList(Resource):
+   def get(self):
+      items = Item.query.all()
+      items_dict = [item.to_dict() for item in items]
+      return items_dict, 200
 
 
 api.add_resource(Signup, '/api/signup')
@@ -94,6 +99,7 @@ api.add_resource(CheckSession, '/api/check_session')
 api.add_resource(Login, '/api/login')
 api.add_resource(Logout, '/api/logout')
 api.add_resource(StoreList, '/api/storeslist')
+api.add_resource(ItemsList, '/api/itemslist')
 
 @app.route('/')
 @app.route('/<int:id>')

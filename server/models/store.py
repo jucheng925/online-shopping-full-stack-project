@@ -11,12 +11,13 @@ class Store(db.Model, SerializerMixin):
     description = db.Column(db.Text)
     created_at = db.Column(db.DateTime, server_default=func.now())
     updated_at = db.Column(db.DateTime, onupdate=func.now())
-    image = db.Column(db.String)
+    img_url = db.Column(db.String)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
 
     owner = db.relationship('User', back_populates='stores')
+    items = db.relationship('Item', back_populates='store', cascade='all, delete-orphan')
 
-    serialize_rules = ('-user.stores',)
+    serialize_rules = ('-owner.stores', '-items.store')
 
     @validates("store_name")
     def check_store_name(self, key, store_name):
@@ -28,4 +29,4 @@ class Store(db.Model, SerializerMixin):
         return store_name
 
     def __repr__(self):
-        return f'<Store {self.store_name}>'
+        return f'<Store {self.id} {self.store_name}>'
