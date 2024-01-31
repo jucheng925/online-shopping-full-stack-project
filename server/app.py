@@ -74,7 +74,7 @@ class StoreList(Resource):
          data = request.get_json()
          store_name = data.get("storeName")
          description = data.get("description")
-         img_url = data.get("image")
+         img_url = data.get("img_url")
          user_id = session.get('user_id')
 
          new_store = Store(store_name=store_name, description=description, 
@@ -88,8 +88,9 @@ class StoreList(Resource):
          return {"error": "Store name already exist"}, 422
       
 class ItemsList(Resource):
-   def get(self):
-      items = Item.query.all()
+   def get(self, storesid):
+      store = Store.query.filter_by(id=storesid).first()
+      items = store.items
       items_dict = [item.to_dict() for item in items]
       return items_dict, 200
 
@@ -98,8 +99,8 @@ api.add_resource(Signup, '/api/signup')
 api.add_resource(CheckSession, '/api/check_session')
 api.add_resource(Login, '/api/login')
 api.add_resource(Logout, '/api/logout')
-api.add_resource(StoreList, '/api/storeslist')
-api.add_resource(ItemsList, '/api/itemslist')
+api.add_resource(StoreList, '/api/stores')
+api.add_resource(ItemsList, '/api/stores/<int:storesid>')
 
 @app.route('/')
 @app.route('/<int:id>')

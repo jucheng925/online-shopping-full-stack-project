@@ -9,12 +9,12 @@ const Storelist = () => {
   const [showForm, setShowForm] = useState(false)
 
   useEffect(()=> {
-    fetch("/api/storeslist")
+    fetch("/api/stores")
     .then(resp => resp.json())
     .then(data => setStores(data))
   }, [currentUser])
 
-  const AdminButton = () => {
+  const showAdminForm = () => {
     return currentUser.isAdmin ? (
       <button style={{width:"40%"}} onClick={()=>setShowForm(!showForm)}>{showForm ? "Close Form" : "Create a New Store"}</button>
     ) : null
@@ -29,7 +29,7 @@ const Storelist = () => {
   if (currentUser) {
     return (
       <div>
-        <AdminButton/>
+        {showAdminForm()}
         {showForm ? <StoreForm addStore={addStore}/> : null}
 
         <div className="container">

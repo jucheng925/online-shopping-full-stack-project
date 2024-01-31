@@ -6,21 +6,22 @@ const StoreForm = ({addStore}) => {
   const formSchema = yup.object().shape({
     storeName: yup.string().required("Store Name is required").max(20),
     description: yup.string(),
-    image: yup.string()
+    img_url: yup.string()
   });
 
   const formik = useFormik({
     initialValues: {
       storeName: "",
       description: "",
-      image: "",
+      img_url: "",
     },
     validationSchema: formSchema,
     onSubmit: submitform
   })
 
   function submitform(values) {
-    fetch("/api/storeslist", {
+    console.log(values)
+    fetch("/api/stores", {
       method: "POST",
       headers: {
          "Content-Type" : "application/json",
@@ -51,9 +52,9 @@ const StoreForm = ({addStore}) => {
         <textarea id="description" cols="55" rows="5" value={formik.values.description} onChange={formik.handleChange}></textarea>
         {displayErrors(formik.errors.description)}
 
-        <label htmlFor="image"><strong>Image URL: </strong></label>
-        <input type="text" id="image" value={formik.values.image} onChange={formik.handleChange}/>
-        {displayErrors(formik.errors.image)}
+        <label htmlFor="img_url"><strong>Image URL: </strong></label>
+        <input type="text" id="img_url" value={formik.values.img_url} onChange={formik.handleChange}/>
+        {displayErrors(formik.errors.img_url)}
         <button type="submit">Add Store </button>
       </div>
     </form>
