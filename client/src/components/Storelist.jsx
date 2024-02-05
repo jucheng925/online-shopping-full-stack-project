@@ -14,27 +14,24 @@ const Storelist = () => {
     .then(data => setStores(data))
   }, [currentUser])
 
-  const showAdminForm = () => {
-    return currentUser.isAdmin ? (
-      <button style={{width:"40%"}} onClick={()=>setShowForm(!showForm)}>{showForm ? "Close Form" : "Create a New Store"}</button>
-    ) : null
-  }
 
-  const addStore = (newStore) =>{
+  const addStore = (newStore)=> {
     const newArray = [...stores, newStore]
     setStores(newArray)
     setShowForm(false)
   }
 
+
+
   if (currentUser) {
     return (
       <div>
-        {showAdminForm()}
+        {currentUser.isAdmin ? <button style={{width:"40%"}} onClick={()=>setShowForm(!showForm)}>{showForm ? "Close Form" : "Create a New Store"}</button> : null}
         {showForm ? <StoreForm addStore={addStore}/> : null}
 
         <div className="container">
             {stores.map((store) => (
-              <Store key={store.id} store={store}></Store>
+              <Store key={store.id} store={store} ></Store>
             ))}
         </div>
       </div>

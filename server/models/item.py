@@ -15,7 +15,7 @@ class Item(db.Model, SerializerMixin):
 
     store = db.relationship('Store', back_populates="items")
 
-    serialize_rules =('-store.items', )
+    serialize_rules =('-store.items', '-store')
 
     @validates("name")
     def check_name(self, key, name):

@@ -1,24 +1,31 @@
-import React, {useContext, useEffect, useState } from 'react'
+import React, {useContext, useEffect, useState} from 'react'
 import { useParams } from 'react-router-dom'
 import { UserContext } from '../context/UserContext'
 import AdminButton from './AdminButton'
 import Item from './Item'
+import { Notfound } from './ErrorPage'
 
 const ItemsList = () => {
   const {currentUser} = useContext(UserContext)
   const params = useParams()
   const [items, setItems] = useState([])
+  const [notFound, setNotFound] = useState(false)
 
   useEffect(()=> {
     fetch(`/api/stores/${params.id}`)
-    .then(resp => resp.json())
-    .then(data => setItems(data))
+    .then(resp => {
+      if (resp.status == 404) {
+        setNotFound(true)
+      } else {
+        resp.json()
+        .then(data => setItems(data))
+      }
+    })
   },[params.id])
 
-  const showAdminButton = ()=> currentUser.isAdmin ? <AdminButton/> : null
   
   const isEmptyStore = ()=> {
-    if (!items.length) {
+    if (!items.length && !notFound) {
       return <p>Sorry, no items available right now. </p>
     } else {
       return items.map((item) => (
@@ -27,8 +34,24 @@ const ItemsList = () => {
     }
   }
 
+  const showAdminButton = ()=> {
+    if (currentUser && !notFound) {
+      if (currentUser.isAdmin) {
+        return <AdminButton deleteStore={deleteStore}/>
+      }
+    } else {
+        return null
+    }
+  }
+
+  const deleteStore =(storeId)=>{
+    console.log("delete store")
+  }
+
+
   return (
     <>
+      {notFound ? <Notfound /> : null}
       {showAdminButton()}
       <div className='container'>
         {isEmptyStore()}

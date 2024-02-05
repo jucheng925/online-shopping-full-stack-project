@@ -87,12 +87,21 @@ class StoreList(Resource):
       except IntegrityError:
          return {"error": "Store name already exist"}, 422
       
-class ItemsList(Resource):
-   def get(self, storesid):
-      store = Store.query.filter_by(id=storesid).first()
-      items = store.items
-      items_dict = [item.to_dict() for item in items]
-      return items_dict, 200
+class OneStore(Resource):
+   def get(self, storeid):
+      store = Store.query.filter_by(id=storeid).first()
+      if store:
+         if store.items:
+            items_dict = [item.to_dict() for item in store.items]
+            return items_dict, 200
+      else:
+         return {}, 404
+   
+   def delete(self, storeid):
+      store = Store.query.filter_by(id=storeid).first()
+      db.session.delete(store)
+      db.session.commit()
+      return {}, 204
 
 
 api.add_resource(Signup, '/api/signup')
@@ -100,7 +109,7 @@ api.add_resource(CheckSession, '/api/check_session')
 api.add_resource(Login, '/api/login')
 api.add_resource(Logout, '/api/logout')
 api.add_resource(StoreList, '/api/stores')
-api.add_resource(ItemsList, '/api/stores/<int:storesid>')
+api.add_resource(OneStore, '/api/stores/<int:storeid>')
 
 @app.route('/')
 @app.route('/<int:id>')
