@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useState} from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 import { UserContext } from '../context/UserContext'
 import AdminButton from './AdminButton'
 import Item from './Item'
@@ -8,6 +8,7 @@ import { Notfound } from './ErrorPage'
 const ItemsList = () => {
   const {currentUser} = useContext(UserContext)
   const params = useParams()
+  const navigate = useNavigate()
   const [items, setItems] = useState([])
   const [notFound, setNotFound] = useState(false)
 
@@ -44,8 +45,10 @@ const ItemsList = () => {
     }
   }
 
-  const deleteStore =(storeId)=>{
-    console.log("delete store")
+  const deleteStore =()=>{
+    fetch(`/api/stores/${params.id}`, {
+    method: "DELETE",
+  }).then(()=>navigate('/stores'))
   }
 
 
