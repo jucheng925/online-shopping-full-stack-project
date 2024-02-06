@@ -73,7 +73,7 @@ class StoreList(Resource):
    def post(self):
       try:
          data = request.get_json()
-         store_name = data.get("storeName")
+         store_name = data.get("store_name")
          description = data.get("description")
          img_url = data.get("img_url")
          user_id = session.get('user_id')
