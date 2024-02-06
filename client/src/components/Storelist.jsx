@@ -12,7 +12,7 @@ const Storelist = () => {
     fetch("/api/stores")
     .then(resp => resp.json())
     .then(data => setStores(data))
-  }, [currentUser])
+  }, [])
 
 
   const addStore = (newStore)=> {
@@ -20,8 +20,6 @@ const Storelist = () => {
     setStores(newArray)
     setShowForm(false)
   }
-
-
 
   if (currentUser) {
     return (

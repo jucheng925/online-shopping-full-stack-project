@@ -1,8 +1,14 @@
 import React from 'react'
+import { useLocation, useNavigate } from 'react-router-dom'
 import * as yup from 'yup'
 import {useFormik} from 'formik'
 
-const StoreForm = ({addStore}) => {
+
+const StoreEditForm = () => {
+  const navigate = useNavigate()
+  const location = useLocation()
+  const store = location.state
+
   const formSchema = yup.object().shape({
     store_name: yup.string().required("Store Name is required").max(20),
     description: yup.string(),
@@ -11,17 +17,17 @@ const StoreForm = ({addStore}) => {
 
   const formik = useFormik({
     initialValues: {
-      store_name: "",
-      description: "",
-      img_url: "",
+      store_name: `${store.store_name}`,
+      description: `${store.description}`,
+      img_url: `${store.img_url}`,
     },
     validationSchema: formSchema,
     onSubmit: submitform
   })
 
   function submitform(values) {
-    fetch("/api/stores", {
-      method: "POST",
+    fetch(`/api/stores/${store.id}`, {
+      method: "PATCH",
       headers: {
          "Content-Type" : "application/json",
           "Accept" : "application/json"
@@ -29,13 +35,13 @@ const StoreForm = ({addStore}) => {
       body: JSON.stringify(values, null, 2),
       })
       .then(resp => resp.json())
-      .then(data => addStore(data))
+      .then(data => navigate('/stores'))
   }
-  
 
   const displayErrors =(error) => {
     return error ? <p style={{color: "red"}}>{error}</p> : null
   }
+
 
   return (
     <div className='body'>
@@ -54,12 +60,11 @@ const StoreForm = ({addStore}) => {
         <label htmlFor="img_url"><strong>Image URL: </strong></label>
         <input type="text" id="img_url" value={formik.values.img_url} onChange={formik.handleChange}/>
         {displayErrors(formik.errors.img_url)}
-        <button type="submit">Add Store </button>
+        <button type="submit">Edit Store </button>
       </div>
     </form>
     </div>
- 
   )
 }
 
-export default StoreForm
+export default StoreEditForm

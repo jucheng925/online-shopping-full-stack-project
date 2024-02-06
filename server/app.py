@@ -45,7 +45,7 @@ class Login(Resource):
       user = User.query.filter(User.username == username).first()
       if user and user.authenticate(password):
          session["user_id"] = user.id
-         return user.to_dict(), 200
+         return user.to_dict(rules=('-stores',)), 200
       else:
          return {"errors": "Incorrect username or password"}, 422
       
@@ -60,11 +60,12 @@ class StoreList(Resource):
       if user:
          if user.isAdmin == False:
             stores = Store.query.all()
-            stores_dict = [store.to_dict() for store in stores]
+            stores_dict = [store.to_dict(rules=('-owner', '-user_id')) for store in stores]
             return stores_dict, 200
          else:
-            stores = Store.query.filter(Store.user_id==user.id).all()
-            stores_dict = [store.to_dict() for store in stores]
+            stores = user.stores
+            # Store.query.filter(Store.user_id==user.id).all()
+            stores_dict = [store.to_dict(rules=('-owner', '-user_id')) for store in stores]
             return stores_dict, 200
       else:
             return {"message" : "Not Authorized"}, 401
@@ -83,17 +84,16 @@ class StoreList(Resource):
          db.session.add(new_store)
          db.session.commit()
 
-         return new_store.to_dict(), 201
+         return new_store.to_dict(rules=('-owner', '-user_id')), 201
+      
       except IntegrityError:
          return {"error": "Store name already exist"}, 422
       
-class OneStore(Resource):
+class StoreById(Resource):
    def get(self, storeid):
       store = Store.query.filter_by(id=storeid).first()
       if store:
-         if store.items:
-            items_dict = [item.to_dict() for item in store.items]
-            return items_dict, 200
+         return store.to_dict(), 200
       else:
          return {}, 404
    
@@ -102,6 +102,32 @@ class OneStore(Resource):
       db.session.delete(store)
       db.session.commit()
       return {}, 204
+   
+   def patch(self, storeid):
+      store = Store.query.filter_by(id=storeid).first()
+      try:
+         data = request.get_json()
+         for attr in data:
+            setattr(store, attr, data.get(attr))
+
+         db.session.add(store)
+         db.session.commit()
+         return store.to_dict(), 200
+      
+      except IntegrityError:
+         return {"error": "Store name already exist"}, 422
+
+
+   
+class Items(Resource):
+   def get(self):
+      user = User.query.filter(User.id == session.get('user_id')).first()
+      if user:
+         items = Item.query.all()
+         items_dict = [item.to_dict(rules =('-store',)) for item in items]
+         return items_dict, 200
+      else: 
+         return {"message" : "Not Authorized"}, 401
 
 
 api.add_resource(Signup, '/api/signup')
@@ -109,7 +135,8 @@ api.add_resource(CheckSession, '/api/check_session')
 api.add_resource(Login, '/api/login')
 api.add_resource(Logout, '/api/logout')
 api.add_resource(StoreList, '/api/stores')
-api.add_resource(OneStore, '/api/stores/<int:storeid>')
+api.add_resource(StoreById, '/api/stores/<int:storeid>')
+api.add_resource(Items, '/api/items')
 
 @app.route('/')
 @app.route('/<int:id>')

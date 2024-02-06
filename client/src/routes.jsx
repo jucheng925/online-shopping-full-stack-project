@@ -4,7 +4,9 @@ import Home from './components/Home.jsx'
 import Signup from './components/Signup'
 import ErrorPage from './components/ErrorPage.jsx'
 import Storelist from './components/Storelist.jsx'
+import StorePage from './components/StorePage.jsx'
 import ItemsList from './components/ItemsList.jsx'
+import StoreEditForm from './components/StoreEditForm.jsx'
 
 const routes = [
   {
@@ -26,7 +28,11 @@ const routes = [
       },
       {
         path: "/stores/:id",
-        element: <ItemsList/>
+        element: <StorePage/>
+      },
+      {
+        path: "/stores/:id/edit",
+        element: <StoreEditForm />
       }
     ]
   }
