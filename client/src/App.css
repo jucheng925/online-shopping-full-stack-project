@@ -50,3 +50,7 @@ img {
 img:hover {
   opacity: 0.5;
 }
+
+.adminbutton {
+  width: 55%
+}

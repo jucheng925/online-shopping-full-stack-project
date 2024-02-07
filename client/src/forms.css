@@ -25,7 +25,7 @@ button {
   padding: 14px 0;
   margin: 10px 0;
   border: none;
-  cursor: grabbing;
+  cursor: default;
   width: 100%;
 }
 

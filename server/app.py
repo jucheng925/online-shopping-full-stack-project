@@ -22,7 +22,6 @@ class Signup(Resource):
 
         return user.to_dict(), 201
     
-    #need to come back and fix
     except IntegrityError:
        return {"error": "Username already exist"}, 422
     except ValueError as err:
@@ -56,6 +55,9 @@ class Logout(Resource):
    
 class StoreList(Resource):
    def get(self):
+      # stores = Store.query.all()
+      # stores_dict = [store.to_dict(rules=('-owner', )) for store in stores]
+      # return stores_dict, 200
       user = User.query.filter(User.id == session.get('user_id')).first()
       if user:
          if user.isAdmin == False:
@@ -128,7 +130,38 @@ class Items(Resource):
          return items_dict, 200
       else: 
          return {"message" : "Not Authorized"}, 401
+      
+   def post(self):
+      data = request.get_json()
+      name = data.get("name")
+      description = data.get("description")
+      img_url = data.get("img_url")
+      price = int(data.get("price"))
+      quantity = int(data.get("quantity"))
+      store_id = data.get("store_id")
 
+      newItem = Item(name=name, description=description,
+                     img_url=img_url, price=price,
+                     quantity=quantity, store_id=store_id)
+      
+      db.session.add(newItem)
+      db.session.commit()
+      return newItem.to_dict(rules =('-store',)), 201
+
+      
+class ItembyId(Resource):
+   def get(self, itemid):
+      item = Item.query.filter_by(id=itemid).first()
+      if item:
+         return item.to_dict(), 200
+      else:
+         return {}, 404
+      
+   def delete(self, itemid):
+      item = Item.query.filter_by(id=itemid).first()
+      db.session.delete(item)
+      db.session.commit()
+      return {}, 204
 
 api.add_resource(Signup, '/api/signup')
 api.add_resource(CheckSession, '/api/check_session')
@@ -137,6 +170,7 @@ api.add_resource(Logout, '/api/logout')
 api.add_resource(StoreList, '/api/stores')
 api.add_resource(StoreById, '/api/stores/<int:storeid>')
 api.add_resource(Items, '/api/items')
+api.add_resource(ItembyId, '/api/items/<int:itemid>')
 
 @app.route('/')
 @app.route('/<int:id>')
