@@ -5,13 +5,18 @@ import StoreForm from './StoreForm'
 
 const Storelist = () => {
   const {currentUser} = useContext(UserContext)
+  const [isLoading, setIsLoading] = useState(false)
   const [stores, setStores] = useState([])
   const [showForm, setShowForm] = useState(false)
 
   useEffect(()=> {
+    setIsLoading(true)
     fetch("/api/stores")
     .then(resp => resp.json())
-    .then(data => setStores(data))
+    .then(data => {
+          setStores(data)
+          setIsLoading(false)
+        })
   }, [])
 
 
@@ -23,18 +28,26 @@ const Storelist = () => {
 
 
   if (currentUser) {
-    return (
-      <div>
-        {currentUser.isAdmin ? <button style={{width:"40%"}} onClick={()=>setShowForm(!showForm)}>{showForm ? "Close Form" : "Create a New Store"}</button> : null}
-        {showForm ? <StoreForm addStore={addStore}/> : null}
-
-        <div className="container">
-            {stores.map((store) => (
-              <Store key={store.id} store={store} ></Store>
-            ))}
+    if (isLoading) {
+      return (
+        <div>
+          <p>Loading ...</p>
         </div>
-      </div>
-    )
+      )
+    } else {
+      return (
+        <div>
+          {currentUser.isAdmin ? <button style={{width:"40%"}} onClick={()=>setShowForm(!showForm)}>{showForm ? "Close Form" : "Create a New Store"}</button> : null}
+          {showForm ? <StoreForm addStore={addStore}/> : null}
+
+          <div className="container">
+              {stores.map((store) => (
+                <Store key={store.id} store={store} ></Store>
+              ))}
+          </div>
+        </div>
+      )
+    }
   } else {
     return (
       <>

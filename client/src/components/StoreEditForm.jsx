@@ -17,9 +17,9 @@ const StoreEditForm = () => {
 
   const formik = useFormik({
     initialValues: {
-      store_name: `${store.store_name}`,
-      description: `${store.description}`,
-      img_url: `${store.img_url}`,
+      store_name: store.store_name,
+      description: store.description,
+      img_url: store.img_url,
     },
     validationSchema: formSchema,
     onSubmit: submitform

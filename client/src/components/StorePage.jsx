@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { UserContext } from '../context/UserContext'
-import { useLocation, useNavigate, useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { Notfound } from './ErrorPage'
 import AdminButton from './AdminButton'
 import ItemsList from './ItemsList'
@@ -10,28 +10,28 @@ const StorePage = () => {
   const {currentUser} = useContext(UserContext)
   const params = useParams()
   const navigate = useNavigate()
-  const location = useLocation()
-  const [store, setStore] = useState(location.state)
+  const [isLoading, setIsLoading] = useState(false)
+  const [store, setStore] = useState()
   const [items, setItems] = useState([])
   const [showForm, setShowForm] = useState(false)
 
-
   useEffect(()=> {
-    if (store == null) {
-      fetch(`/api/stores/${params.id}`)
-      .then(resp=> resp.json())
-      .then(store => {
-        setStore(store)
-        setItems(store.items)
-      })
-    } else {
-      setItems(location.state.items)
-    }
-  }, [])
+    setIsLoading(true)
+    fetch(`/api/stores/${params.id}`)
+    .then(resp=> {
+      if (resp.ok) {
+        resp.json().then(store => {
+          setStore(store)
+          setItems(store.items)
+          setIsLoading(false)
+        })
+      } 
+    } 
+  )}, [])
 
 
   const deleteStore =()=>{
-    fetch(`/api/stores/${store.id}`, {
+    fetch(`/api/stores/${params.id}`, {
     method: "DELETE",
     }).then(()=>navigate('/stores'))
   }
@@ -47,29 +47,36 @@ const StorePage = () => {
     setShowForm(false)
   }
 
-  if (store && currentUser) {
+  if (isLoading) {
     return (
-      <>
-        {currentUser.isAdmin ? <AdminButton 
-                      deleteStore={deleteStore} 
-                      store={store}
-                      showForm={showForm}
-                      setShowForm={setShowForm}
-                      /> 
-                  : null}
-        {showForm ? <ItemAddForm addItem={addItem} storeId = {store.id}/> : null}
-        <h2>{store.store_name}</h2>
-        <p style={{fontStyle:"italic"}}>{store.description}</p>
-        <div>
-          <ItemsList items={items} deleteItem={deleteItem}/>
-        </div>
-      </>
-
+      <div>
+        <p>Loading ...</p>
+      </div>
     )
   } else {
-    return (
-      <Notfound/>
-    )
+    if (store && currentUser) {
+      return (
+        <>
+          {currentUser.isAdmin ? <AdminButton 
+                        deleteStore={deleteStore} 
+                        store={store}
+                        showForm={showForm}
+                        setShowForm={setShowForm}
+                        /> 
+                    : null}
+          {showForm ? <ItemAddForm addItem={addItem} storeId = {store.id}/> : null}
+          <h2>{store.store_name}</h2>
+          <p style={{fontStyle:"italic"}}>{store.description}</p>
+          <div>
+            <ItemsList items={items} deleteItem={deleteItem} /> 
+          </div>
+        </>
+      )
+    } else {
+      return (
+        <Notfound/>
+      )
+    }
   }
 }
 

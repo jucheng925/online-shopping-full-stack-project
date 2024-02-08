@@ -162,6 +162,16 @@ class ItembyId(Resource):
       db.session.delete(item)
       db.session.commit()
       return {}, 204
+   
+   def patch(self, itemid):
+      item = Item.query.filter_by(id=itemid).first()
+      data = request.get_json()
+      for attr in data:
+            setattr(item, attr, data.get(attr))
+      db.session.add(item)
+      db.session.commit()
+      return item.to_dict(), 200
+
 
 api.add_resource(Signup, '/api/signup')
 api.add_resource(CheckSession, '/api/check_session')

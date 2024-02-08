@@ -1,8 +1,13 @@
 import React from 'react'
+import { useLocation, useNavigate } from 'react-router-dom'
 import * as yup from 'yup'
 import {useFormik} from 'formik'
 
-const ItemAddForm = ({addItem, storeId}) => {
+const ItemEditForm = () => {
+  const navigate = useNavigate()
+  const location = useLocation()
+  const item = location.state
+
   const formSchema = yup.object().shape({
     name: yup.string().required("Item Name is required").min(3),
     description: yup.string(),
@@ -13,21 +18,19 @@ const ItemAddForm = ({addItem, storeId}) => {
 
   const formik = useFormik({
     initialValues: {
-      name: "",
-      description: "",
-      img_url: "",
-      price: 0,
-      quantity: 0,
-      store_id: storeId
+      name: item.name,
+      description: item.description,
+      img_url: item.img_url,
+      price: item.price,
+      quantity: item.quantity,
     },
     validationSchema: formSchema,
     onSubmit: submitform
   });
 
-
   function submitform(values) {
-    fetch("/api/items", {
-      method: "POST",
+    fetch(`/api/items/${item.id}`, {
+      method: "PATCH",
       headers: {
          "Content-Type" : "application/json",
           "Accept" : "application/json"
@@ -35,17 +38,17 @@ const ItemAddForm = ({addItem, storeId}) => {
       body: JSON.stringify(values, null, 2),
       })
       .then(resp => resp.json())
-      .then(data => addItem(data))
+      .then(data => navigate(`/stores/${item.store_id}`))
   }
-  
-  const displayErrors =(error) => {
+
+ const displayErrors =(error) => {
     return error ? <p style={{color: "red"}}>{error}</p> : null
   }
 
   return (
     <div className='body'>
     <form onSubmit={formik.handleSubmit}>
-      <h1>Create a New Item</h1>
+      <h1>Edit Item</h1>
       <div className='formcontainer'>
         <hr />
         <label htmlFor="name"><strong>Item Name: </strong></label>
@@ -68,11 +71,11 @@ const ItemAddForm = ({addItem, storeId}) => {
         <input type="text" id="quantity" value={formik.values.quantity} onChange={formik.handleChange}/>
         {displayErrors(formik.errors.quantity)}
 
-        <button type="submit">Add Item </button>
+        <button type="submit">Edit Item </button>
       </div>
     </form>
     </div>
   )
 }
 
-export default ItemAddForm
+export default ItemEditForm
