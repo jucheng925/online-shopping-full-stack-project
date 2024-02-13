@@ -1,5 +1,7 @@
 from sqlalchemy_serializer import SerializerMixin
 from sqlalchemy.orm import validates
+from sqlalchemy.ext.associationproxy import association_proxy
+
 
 from config import db
 
@@ -15,6 +17,9 @@ class Item(db.Model, SerializerMixin):
 
     store = db.relationship('Store', back_populates="items")
 
+    purchases = db.relationship('Purchase', back_populates="item")
+    user = association_proxy('purchases', 'user')
+
     serialize_rules =('-store.items', '-store')
 
     @validates("name")
@@ -27,4 +32,4 @@ class Item(db.Model, SerializerMixin):
 
 
 def __repr__(self):
-    return f'<Item {self.id} {self.name} >'
+    return f'<Item {self.id} {self.name}>'

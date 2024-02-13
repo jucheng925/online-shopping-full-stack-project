@@ -2,12 +2,13 @@ from config import app, db
 
 from faker import Faker
 
-from models.models import User, Store, Item
+from models.models import User, Store, Item, Purchase
 
 if __name__ == "__main__":
 	with app.app_context():
 		
 		print("Deleting all records ...")
+		Purchase.query.delete()
 		Item.query.delete()
 		Store.query.delete()
 		User.query.delete()
@@ -88,4 +89,25 @@ if __name__ == "__main__":
 					store_id = video_shop.id)
 		
 		db.session.add_all([pink_rose, rainbow_rose, board_game, xbox_controller, gameboy])
+		db.session.commit()
+
+
+		print("Creating purchases...")
+
+		purchase1 = Purchase(amt_spent = 100,
+					   quantity = 1,
+					   user_id=tom.id,
+					   item_id = gameboy.id)
+		
+		purchase2 = Purchase(amt_spent = 200,
+					   quantity = 2,
+					   user_id=tom.id,
+					   item_id = rainbow_rose.id)
+		
+		purchase3 = Purchase(amt_spent = 30,
+					   quantity = 1,
+					   user_id=kim.id,
+					   item_id = board_game.id)
+		
+		db.session.add_all([purchase1, purchase2, purchase3])
 		db.session.commit()

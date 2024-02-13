@@ -57,6 +57,11 @@ const StorePage = () => {
     if (store && currentUser) {
       return (
         <>
+          <div>
+            <h2>{store.store_name}</h2>
+            <p style={{fontStyle:"italic"}}>{store.description}</p>
+          </div>
+          <hr />
           {currentUser.isAdmin ? <AdminButton 
                         deleteStore={deleteStore} 
                         store={store}
@@ -65,8 +70,7 @@ const StorePage = () => {
                         /> 
                     : null}
           {showForm ? <ItemAddForm addItem={addItem} storeId = {store.id}/> : null}
-          <h2>{store.store_name}</h2>
-          <p style={{fontStyle:"italic"}}>{store.description}</p>
+
           <div>
             <ItemsList items={items} deleteItem={deleteItem} /> 
           </div>
