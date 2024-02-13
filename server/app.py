@@ -3,7 +3,7 @@ from flask import request, session, render_template
 from sqlalchemy.exc import IntegrityError
 
 from config import app, db, api
-from models.models import User, Store, Item
+from models.models import User, Store, Item, Purchase
 
 class Signup(Resource):
   def post(self):
@@ -55,9 +55,6 @@ class Logout(Resource):
    
 class StoreList(Resource):
    def get(self):
-      # stores = Store.query.all()
-      # stores_dict = [store.to_dict(rules=('-owner', )) for store in stores]
-      # return stores_dict, 200
       user = User.query.filter(User.id == session.get('user_id')).first()
       if user:
          if user.isAdmin == False:
@@ -66,7 +63,6 @@ class StoreList(Resource):
             return stores_dict, 200
          else:
             stores = user.stores
-            # Store.query.filter(Store.user_id==user.id).all()
             stores_dict = [store.to_dict(rules=('-owner', '-user_id')) for store in stores]
             return stores_dict, 200
       else:
@@ -171,6 +167,13 @@ class ItembyId(Resource):
       db.session.add(item)
       db.session.commit()
       return item.to_dict(), 200
+   
+class Purchases(Resource):
+   def get(self):
+      purchases = Purchase.query.all()
+      purchases_dict = [purchase.to_dict() for purchase in purchases]
+      return purchases_dict, 200
+   
 
 
 api.add_resource(Signup, '/api/signup')
@@ -181,6 +184,7 @@ api.add_resource(StoreList, '/api/stores')
 api.add_resource(StoreById, '/api/stores/<int:storeid>')
 api.add_resource(Items, '/api/items')
 api.add_resource(ItembyId, '/api/items/<int:itemid>')
+api.add_resource(Purchases, '/api/purchases')
 
 @app.route('/')
 @app.route('/<int:id>')

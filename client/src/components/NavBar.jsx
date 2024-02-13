@@ -11,6 +11,22 @@ const NavBar = () => {
     }).then(() => logout())
   }
 
+  const displaybuttons = () =>{
+    return (
+    <>
+      {currentUser.isAdmin ? null :
+        <button className='nav-link'>
+          My Purchases
+        </button>
+      }
+      <button className="nav-link" onClick={handleLogout}>
+        Logout
+      </button>
+
+    </>
+    )
+  }
+
 return (
     <nav style={{margin: 10}}>
       <NavLink to= "/" className="nav-link">
@@ -19,9 +35,7 @@ return (
       <NavLink to="/stores" className="nav-link">
         Stores
       </NavLink>
-      {currentUser ? <button className="nav-link" onClick={handleLogout}>
-        Logout
-      </button> : null }
+      {currentUser ? displaybuttons() : null }
     </nav>
   )
 }

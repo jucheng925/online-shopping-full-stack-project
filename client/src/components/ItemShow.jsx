@@ -10,7 +10,8 @@ const ItemShow = ({item}) => {
     <div>
       <p style={{fontStyle:"italic"}}>{item.description}</p>
       <p>Price: ${item.price}</p>
-      <p>Quantity: {item.quantity}</p>
+      <p>Inventory Available: {item.quantity}</p>
+      <p><strong>Purchased {item.purchases.length} times </strong></p>
       {currentUser.isAdmin ? 
           <button onClick = {() => {navigate(`/stores/${item.store_id}/edititem`, {state: item})}}>Edit Item</button> 
           : <button>Buy Item</button>}

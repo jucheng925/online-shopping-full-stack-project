@@ -1,5 +1,4 @@
 from sqlalchemy_serializer import SerializerMixin
-from sqlalchemy.orm import validates
 from sqlalchemy.sql import func
 
 from config import db
@@ -15,6 +14,8 @@ class Purchase(db.Model, SerializerMixin):
 
     user = db.relationship('User', back_populates ='purchases')
     item = db.relationship('Item', back_populates ='purchases')
+
+    serialize_rules = ('-user.purchases', '-item.purchases')
 
 
     def __repr__(self):

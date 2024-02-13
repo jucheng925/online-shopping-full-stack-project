@@ -67,7 +67,7 @@ const ItemEditForm = () => {
         <input type="text" id="price" value={formik.values.price} onChange={formik.handleChange}/>
         {displayErrors(formik.errors.price)}
 
-        <label htmlFor="quantity"><strong>Quantity: </strong></label>
+        <label htmlFor="quantity"><strong>Inventory Amount: </strong></label>
         <input type="text" id="quantity" value={formik.values.quantity} onChange={formik.handleChange}/>
         {displayErrors(formik.errors.quantity)}
 
