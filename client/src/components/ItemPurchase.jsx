@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import { useNavigate } from 'react-router-dom'
 
-const ItemPurchase = ({item, setShowItemPurchase}) => {
+const ItemPurchase = ({item, setShowItemPurchase, updatedItem}) => {
   const [inputQuantity, setInputQuantity] = useState(0)
   const navigate = useNavigate()
 
@@ -15,7 +15,7 @@ const ItemPurchase = ({item, setShowItemPurchase}) => {
       body: JSON.stringify({quantity: item.quantity - inputQuantity}),
      })
      .then(resp => resp.json())
-     .then(() => navigate(`/stores/${item.store_id}`))
+     .then((data) => updatedItem(data))
   }
 
   const handlePurchase = ()=> {

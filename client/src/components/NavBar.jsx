@@ -14,7 +14,10 @@ const NavBar = () => {
   const displaybuttons = () =>{
     return (
     <>
-      {currentUser.isAdmin ? null :
+      {currentUser.isAdmin ? 
+        <NavLink to="/storepurchases" className='nav-link'>
+          Store Purchases
+        </NavLink>:
         <NavLink to="/mypurchases" className='nav-link'>
           My Purchases
         </NavLink>

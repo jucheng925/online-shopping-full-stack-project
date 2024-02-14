@@ -47,6 +47,17 @@ const StorePage = () => {
     setShowForm(false)
   }
 
+  const handleUpdatedItem = (updatedItem)=> {
+    const updatedItems = items.map((item) => {
+      if (item.id === updatedItem.id) {
+        return updatedItem
+      } else {
+        return item
+      }
+    });
+    setItems(updatedItems)
+  }
+
   if (isLoading) {
     return (
       <div>
@@ -72,7 +83,7 @@ const StorePage = () => {
           {showForm ? <ItemAddForm addItem={addItem} storeId = {store.id}/> : null}
 
           <div>
-            <ItemsList items={items} deleteItem={deleteItem} /> 
+            <ItemsList items={items} updatedItem={handleUpdatedItem} deleteItem={deleteItem} /> 
           </div>
         </>
       )

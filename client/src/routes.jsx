@@ -8,6 +8,8 @@ import StorePage from './components/StorePage.jsx'
 import StoreEditForm from './components/StoreEditForm.jsx'
 import ItemEditForm from './components/ItemEditForm.jsx'
 import MyPurchases from './components/MyPurchases.jsx'
+import StorePurchases from './components/StorePurchases.jsx'
+import StorePerformance from './components/StorePerformance.jsx'
 
 
 const routes = [
@@ -43,7 +45,16 @@ const routes = [
       {
         path: "/mypurchases",
         element: <MyPurchases/>
-      
+      },
+      {
+        path: "/storepurchases",
+        element: <StorePurchases/>,
+        children: [
+          {
+            path: "/storepurchases/:id",
+            element: <StorePerformance />
+          }
+        ]
       }
     ]
   }
