@@ -32,7 +32,7 @@ const StoreEditForm = () => {
          "Content-Type" : "application/json",
           "Accept" : "application/json"
       },
-      body: JSON.stringify(values, null, 2),
+      body: JSON.stringify(values),
       })
       .then(resp => resp.json())
       .then(data => navigate('/stores'))

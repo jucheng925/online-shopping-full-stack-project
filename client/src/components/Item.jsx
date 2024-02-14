@@ -6,6 +6,7 @@ const Item = ({item, handleDelete}) => {
   const {currentUser} = useContext(UserContext)
   const [showMoreDetails, setShowMoreDetails] = useState(false)
 
+
   const handleClick = () =>{
     setShowMoreDetails(!showMoreDetails)
   }

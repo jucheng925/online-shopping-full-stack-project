@@ -174,6 +174,27 @@ class Purchases(Resource):
       purchases_dict = [purchase.to_dict() for purchase in purchases]
       return purchases_dict, 200
    
+   def post(self):
+      data = request.get_json()
+      user_id = session.get('user_id')
+      item_id = data.get("item_id")
+      quantity = int(data.get("quantity"))
+      amt_spent = int(data.get("amt_spent"))
+
+      newPurchase = Purchase(user_id=user_id, item_id=item_id, quantity=quantity, amt_spent=amt_spent)
+      db.session.add(newPurchase)
+      db.session.commit()
+      
+      return newPurchase.to_dict(), 201
+
+
+   
+class PurchasesByUser(Resource):
+   def get(self, userid):
+      purchases = Purchase.query.filter_by(user_id = userid).all()
+      purchases_dict = [purchase.to_dict(rules=('-user',)) for purchase in purchases]
+      return purchases_dict, 200
+   
 
 
 api.add_resource(Signup, '/api/signup')
@@ -185,6 +206,7 @@ api.add_resource(StoreById, '/api/stores/<int:storeid>')
 api.add_resource(Items, '/api/items')
 api.add_resource(ItembyId, '/api/items/<int:itemid>')
 api.add_resource(Purchases, '/api/purchases')
+api.add_resource(PurchasesByUser, '/api/purchases/<int:userid>')
 
 @app.route('/')
 @app.route('/<int:id>')

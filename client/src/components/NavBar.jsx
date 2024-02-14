@@ -15,9 +15,9 @@ const NavBar = () => {
     return (
     <>
       {currentUser.isAdmin ? null :
-        <button className='nav-link'>
+        <NavLink to="/mypurchases" className='nav-link'>
           My Purchases
-        </button>
+        </NavLink>
       }
       <button className="nav-link" onClick={handleLogout}>
         Logout

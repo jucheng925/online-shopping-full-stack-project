@@ -7,6 +7,7 @@ import Storelist from './components/Storelist.jsx'
 import StorePage from './components/StorePage.jsx'
 import StoreEditForm from './components/StoreEditForm.jsx'
 import ItemEditForm from './components/ItemEditForm.jsx'
+import MyPurchases from './components/MyPurchases.jsx'
 
 
 const routes = [
@@ -38,6 +39,11 @@ const routes = [
       {
         path: "/stores/:id/edititem",
         element: <ItemEditForm />
+      },
+      {
+        path: "/mypurchases",
+        element: <MyPurchases/>
+      
       }
     ]
   }
