@@ -50,7 +50,7 @@ const routes = [
         path: "/storepurchases",
         element: <StorePurchases/>,
         children: [
-          {
+          {          
             path: "/storepurchases/:id",
             element: <StorePerformance />
           }

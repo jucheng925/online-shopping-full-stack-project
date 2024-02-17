@@ -61,11 +61,11 @@ const ItemAddForm = ({addItem, storeId}) => {
         {displayErrors(formik.errors.img_url)}
 
         <label htmlFor="price"><strong>Price($) : </strong></label>
-        <input type="text" id="price" value={formik.values.price} onChange={formik.handleChange}/>
+        <input type="number" id="price" value={formik.values.price} onChange={formik.handleChange}/>
         {displayErrors(formik.errors.price)}
 
         <label htmlFor="quantity"><strong>Inventory Amount: </strong></label>
-        <input type="text" id="quantity" value={formik.values.quantity} onChange={formik.handleChange}/>
+        <input type="number" id="quantity" value={formik.values.quantity} onChange={formik.handleChange}/>
         {displayErrors(formik.errors.quantity)}
 
         <button type="submit">Add Item </button>

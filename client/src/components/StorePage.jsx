@@ -19,13 +19,13 @@ const StorePage = () => {
     setIsLoading(true)
     fetch(`/api/stores/${params.id}`)
     .then(resp=> {
+      setIsLoading(false)
       if (resp.ok) {
         resp.json().then(store => {
           setStore(store)
           setItems(store.items)
-          setIsLoading(false)
         })
-      } 
+      }
     } 
   )}, [])
 
@@ -36,18 +36,18 @@ const StorePage = () => {
     }).then(()=>navigate('/stores'))
   }
 
-  const deleteItem = (deleteItemId)=> {
-    const newItemsList = items.filter((item) => item.id !== deleteItemId)
-    setItems(newItemsList)
-  }
-
   const addItem = (newItem)=> {
     const newArray = [...items, newItem]
     setItems(newArray)
     setShowForm(false)
   }
 
-  const handleUpdatedItem = (updatedItem)=> {
+  const onDeleteItem = (deleteItemId)=> {
+    const newItemsList = items.filter((item) => item.id !== deleteItemId)
+    setItems(newItemsList)
+  }
+
+  const onUpdateItem = (updatedItem)=> {
     const updatedItems = items.map((item) => {
       if (item.id === updatedItem.id) {
         return updatedItem
@@ -83,7 +83,7 @@ const StorePage = () => {
           {showForm ? <ItemAddForm addItem={addItem} storeId = {store.id}/> : null}
 
           <div>
-            <ItemsList items={items} updatedItem={handleUpdatedItem} deleteItem={deleteItem} /> 
+            <ItemsList items={items} onUpdateItem={onUpdateItem} onDeleteItem={onDeleteItem} /> 
           </div>
         </>
       )

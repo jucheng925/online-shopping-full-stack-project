@@ -2,21 +2,17 @@ import React, {useState, useContext} from 'react'
 import { UserContext } from '../context/UserContext'
 import ItemShow from './ItemShow'
 
-const Item = ({item, handleDelete, updatedItem}) => {
+const Item = ({item, handleDelete, onUpdateItem}) => {
   const {currentUser} = useContext(UserContext)
   const [showMoreDetails, setShowMoreDetails] = useState(false)
 
 
-  const handleClick = () =>{
-    setShowMoreDetails(!showMoreDetails)
-  }
-
   return (
     <div>
-      <img onClick={handleClick} src={item.img_url} alt={`${item.name}`} />
-      <h3>{item.name}</h3>
+      <img onClick={()=>setShowMoreDetails(!showMoreDetails)} src={item.img_url} alt={`${item.name}`} />
+      <h3><strong>{item.name}</strong></h3>
       <p>Click on image {showMoreDetails ? "to hide" : "for more"} details </p>
-      {showMoreDetails ? <ItemShow item={item} updatedItem={updatedItem}/> : null}
+      {showMoreDetails ? <ItemShow item={item} onUpdateItem={onUpdateItem}/> : null}
       {currentUser.isAdmin ? <button style ={{backgroundColor: "red", width: "20%"}} onClick={()=>handleDelete(item)}>Delete</button> : null}
 
     </div>

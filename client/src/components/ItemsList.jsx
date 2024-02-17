@@ -2,30 +2,23 @@ import React from 'react'
 import Item from './Item'
 
 
-const ItemsList = ({items, deleteItem, updatedItem }) => {
+const ItemsList = ({items, onDeleteItem, onUpdateItem }) => {
 
   const handleDelete = (item) => {
     fetch(`/api/items/${item.id}`, {
       method: "DELETE",
-    }).then(()=> deleteItem(item.id))
-  }
-
-
-  const displayItems = ()=> {
-    if (items.length == 0) {
-      return <p>Sorry, no items available right now. </p>
-    } else {
-      return items.map((item) => (
-        <Item key ={item.id} item={item} updatedItem={updatedItem} handleDelete={handleDelete}  />
-      ))
-    }
+    }).then(()=> onDeleteItem(item.id))
   }
 
 
   return (
     <>
       <div className='container'>
-        {displayItems()}
+        {items.length == 0 ? <p>Sorry, no items available right now. </p> : 
+          items.map((item) => (
+            <Item key ={item.id} item={item} onUpdateItem={onUpdateItem} handleDelete={handleDelete}  />
+            ))
+        }
       </div>
     </>
   )

@@ -7,7 +7,7 @@ const MyPurchases = () => {
 
 	useEffect(()=> {
 		if (currentUser) {
-			fetch(`api/purchases/${currentUser.id}`)
+			fetch(`/api/purchases/${currentUser.id}`)
 			.then(resp => resp.json())
 			.then(data => setMyPurchases(data))
 		}
@@ -20,6 +20,7 @@ const MyPurchases = () => {
         <thead>
           <tr>
             <th>Date</th>
+            <th>Store</th>
             <th>Item Brought</th>
             <th>Quanity</th>
             <th>Total Spent</th>
@@ -29,6 +30,7 @@ const MyPurchases = () => {
 					{myPurchases.map((purchase) =>
 						<tr key={purchase.id}>
 							<td>{purchase.created_at}</td>
+              <td>{purchase.item.store.store_name}</td>
 							<td>{purchase.item.name}</td>
 							<td>{purchase.quantity}</td>
 							<td>${purchase.amt_spent}</td>

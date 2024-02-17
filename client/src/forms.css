@@ -10,7 +10,7 @@ form {
   width: 60%;
 }
 
-input[type=text], input[type=password], textarea {
+input[type=text], input[type=number], input[type=password], textarea {
   width: 100%;
   padding: 13px 8px;
   margin: 6px 0;

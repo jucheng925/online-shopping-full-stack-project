@@ -1,9 +1,8 @@
 import React, {useState} from 'react'
-import { useNavigate } from 'react-router-dom'
 
-const ItemPurchase = ({item, setShowItemPurchase, updatedItem}) => {
+
+const ItemPurchase = ({item, setShowPurchaseOption, onUpdateItem}) => {
   const [inputQuantity, setInputQuantity] = useState(0)
-  const navigate = useNavigate()
 
   const handleInventory = (item)=> {
     fetch(`/api/items/${item.id}`, {
@@ -15,7 +14,7 @@ const ItemPurchase = ({item, setShowItemPurchase, updatedItem}) => {
       body: JSON.stringify({quantity: item.quantity - inputQuantity}),
      })
      .then(resp => resp.json())
-     .then((data) => updatedItem(data))
+     .then((data) => onUpdateItem(data))
   }
 
   const handlePurchase = ()=> {
@@ -37,7 +36,8 @@ const ItemPurchase = ({item, setShowItemPurchase, updatedItem}) => {
         .then(resp => resp.json())
         .then(data => {
           handleInventory(data.item)
-          setShowItemPurchase(false)
+          setShowPurchaseOption(false)
+          window.alert("Thank you for purchasing!!")
         })
       }
   }
@@ -46,9 +46,13 @@ const ItemPurchase = ({item, setShowItemPurchase, updatedItem}) => {
 
   return (
     <div>
-        <label htmlFor="amount">How many would you like to buy?  </label>
-        <input type="number" id="amount" min="0" max={item.quantity} value={inputQuantity} onChange={(e)=>setInputQuantity(e.target.value)}/>
-        <button onClick={handlePurchase}>Confirm Purchase</button>
+      {item.quantity === 0 ? <p>Sorry, out of stock </p> : 
+        <>
+          <label htmlFor="amount">How many would you like to buy?  </label>
+          <input type="number" id="amount" min="0" max={item.quantity} value={inputQuantity} onChange={(e)=>setInputQuantity(e.target.value)}/>
+          <button onClick={handlePurchase}>Confirm Purchase</button>
+        </>
+      }
     </div>
   )
 }

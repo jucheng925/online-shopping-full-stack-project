@@ -26,6 +26,21 @@ const Storelist = () => {
     setShowForm(false)
   }
 
+  const AdminStorePage = () => {
+    return (
+      <div>
+          <button style={{width:"40%"}} onClick={()=>setShowForm(!showForm)}>{showForm ? "Close Form" : "Create a New Store"}</button>
+          {showForm ? <StoreForm addStore={addStore}/> : null}
+          <div className="container">
+            <h2><strong>My Stores</strong></h2>
+            {stores.filter((store) => store.user_id === currentUser.id).map((store) => (
+                <Store key={store.id} store={store} ></Store>
+              ))}
+          </div>
+      </div>
+    )
+  }
+  
 
   if (currentUser) {
     if (isLoading) {
@@ -37,14 +52,12 @@ const Storelist = () => {
     } else {
       return (
         <div>
-          {currentUser.isAdmin ? <button style={{width:"40%"}} onClick={()=>setShowForm(!showForm)}>{showForm ? "Close Form" : "Create a New Store"}</button> : null}
-          {showForm ? <StoreForm addStore={addStore}/> : null}
-
+          {currentUser.isAdmin ? <AdminStorePage/> : 
           <div className="container">
               {stores.map((store) => (
                 <Store key={store.id} store={store} ></Store>
               ))}
-          </div>
+          </div>}
         </div>
       )
     }

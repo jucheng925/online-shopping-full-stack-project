@@ -5,7 +5,6 @@ const CheckSession = () => {
     const { login } = useContext(UserContext)
 
     useEffect(() => {
-   
       fetch("/api/check_session").then((resp) => {
         if (resp.ok) {
           resp.json().then((user) => login(user));
