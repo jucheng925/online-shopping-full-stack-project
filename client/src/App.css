@@ -1,5 +1,5 @@
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  /* font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif; */
   line-height: 1.5;
   font-weight: 400;
 
@@ -28,7 +28,7 @@
 .nav-link{
   display: inline-block;
   box-sizing: border-box;
-  width: 100px;
+  width: 140px;
   padding: 5px;
   margin: 0 6px 6px;
   background: rgb(55, 126, 185);
@@ -51,6 +51,3 @@ img:hover {
   opacity: 0.5;
 }
 
-.adminbutton {
-  width: 55%
-}
