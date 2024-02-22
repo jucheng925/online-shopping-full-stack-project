@@ -9,7 +9,6 @@ import CheckSession from './CheckSession'
 
 function App() {
 
-
   return (
     <UserProvider>
       <CheckSession/>

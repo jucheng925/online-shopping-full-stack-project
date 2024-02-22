@@ -27,7 +27,7 @@
 
 .nav-link{
   display: inline-block;
-  box-sizing: border-box;
+  /* box-sizing: border-box; */
   width: 140px;
   padding: 5px;
   margin: 0 6px 6px;

@@ -2,6 +2,8 @@ import React, { useContext, useEffect, useState } from 'react'
 import { UserContext } from '../context/UserContext'
 import Store from './Store'
 import StoreForm from './StoreForm'
+import { Container, Grid } from '@mui/material'
+
 
 const Storelist = () => {
   const {currentUser} = useContext(UserContext)
@@ -31,12 +33,14 @@ const Storelist = () => {
       <div>
           <button style={{width:"40%"}} onClick={()=>setShowForm(!showForm)}>{showForm ? "Close Form" : "Create a New Store"}</button>
           {showForm ? <StoreForm addStore={addStore}/> : null}
-          <div className="container">
-            <h2><strong>My Stores</strong></h2>
+          <h2><strong>My Stores</strong></h2>
+          <Grid container spacing={3}>
             {stores.filter((store) => store.user_id === currentUser.id).map((store) => (
-                <Store key={store.id} store={store} ></Store>
+                <Grid key={store.id} item xs={4}>
+                  <Store key={store.id} store={store}></Store>
+                </Grid>
               ))}
-          </div>
+          </Grid>
       </div>
     )
   }
@@ -53,11 +57,13 @@ const Storelist = () => {
       return (
         <div>
           {currentUser.isAdmin ? <AdminStorePage/> : 
-          <div className="container">
+          <Grid container spacing={3}>
               {stores.map((store) => (
-                <Store key={store.id} store={store} ></Store>
+                <Grid key={store.id} item xs={4}>
+                  <Store key={store.id} store={store} ></Store>
+                </Grid>
               ))}
-          </div>}
+          </Grid>}
         </div>
       )
     }

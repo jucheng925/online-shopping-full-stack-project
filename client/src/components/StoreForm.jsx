@@ -1,8 +1,10 @@
-import React from 'react'
+import React, { useState } from 'react'
 import * as yup from 'yup'
 import {useFormik} from 'formik'
 
 const StoreForm = ({addStore}) => {
+  const [error, setError] = useState()
+
   const formSchema = yup.object().shape({
     store_name: yup.string().required("Store Name is required").max(20),
     description: yup.string(),
@@ -28,11 +30,16 @@ const StoreForm = ({addStore}) => {
       },
       body: JSON.stringify(values),
       })
-      .then(resp => resp.json())
-      .then(data => addStore(data))
+      .then(resp => {
+        if (resp.ok) {
+          resp.json()
+        .then(data => addStore(data))
+         } else {
+          setError("Store Name already used")
+        }
+      })
   }
   
-
   const displayErrors =(error) => {
     return error ? <p style={{color: "red"}}>{error}</p> : null
   }
@@ -41,6 +48,7 @@ const StoreForm = ({addStore}) => {
     <div className='body'>
     <form onSubmit={formik.handleSubmit}>
       <h1>Create a New Store</h1>
+      {displayErrors(error)}
       <div className='formcontainer'>
         <hr />
         <label htmlFor="store_name"><strong>Store Name: </strong></label>
