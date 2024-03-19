@@ -1,4 +1,6 @@
 import React, {useState} from 'react'
+import Button from '@mui/material/Button';
+import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
 
 
 const ItemPurchase = ({item, setShowPurchaseOption, onUpdateItem}) => {
@@ -50,7 +52,14 @@ const ItemPurchase = ({item, setShowPurchaseOption, onUpdateItem}) => {
         <>
           <label htmlFor="amount">How many would you like to buy?  </label>
           <input type="number" id="amount" min="0" max={item.quantity} value={inputQuantity} onChange={(e)=>setInputQuantity(e.target.value)}/>
-          <button onClick={handlePurchase}>Confirm Purchase</button>
+          <Button onClick={handlePurchase} 
+                  variant="contained" 
+                  size="medium" 
+                  style={{width:"40%", margin:"15px 0"}} 
+                  color="success" 
+                  startIcon={<ThumbUpAltIcon/>} >
+            Confirm Purchase
+          </Button>
         </>
       }
     </div>

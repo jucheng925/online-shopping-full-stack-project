@@ -1,7 +1,7 @@
 import React, {useState, useContext} from 'react'
 import { UserContext } from '../context/UserContext'
 import ItemShow from './ItemShow'
-import { IconButton, Tooltip } from '@mui/material'
+import Button from '@mui/material/Button';
 import DeleteIcon from '@mui/icons-material/Delete';
 
 const Item = ({item, handleDelete, onUpdateItem}) => {
@@ -10,23 +10,18 @@ const Item = ({item, handleDelete, onUpdateItem}) => {
 
 
   return (
-    <div>
+    <>
       <img onClick={()=>setShowMoreDetails(!showMoreDetails)} src={item.img_url} alt={`${item.name}`} />
       <h3><strong>{item.name}</strong></h3>
       <p>Click on image {showMoreDetails ? "to hide" : "for more"} details </p>
       {showMoreDetails ? <ItemShow item={item} onUpdateItem={onUpdateItem}/> : null}
       {currentUser.isAdmin ? (
-        <Tooltip title="Delete">
-          <IconButton width='20%' onClick={()=>handleDelete(item)}>
-            <DeleteIcon fontSize='large' color='error' />
-          </IconButton>
-          {/* <button style ={{backgroundColor: "red", width: "20%"}} onClick={()=>handleDelete(item)}>Delete</button> */}
-        
-        </Tooltip>
-        
+          <Button variant="contained" size="medium" style={{width:"40%",  margin:"3%"}} color="error" startIcon={<DeleteIcon />} onClick={()=>handleDelete(item)}>
+            Delete
+          </Button>
         ): null}
 
-    </div>
+    </>
   )
 }
 
