@@ -35,7 +35,7 @@ h1 {
 }
 
 button:hover {
-  opacity: 0.8;
+  opacity: 0.;
 }
 
 .formcontainer {
@@ -48,6 +48,3 @@ button:hover {
   text-align:left;
 }
 
-.adminbutton {
-  width: 55%
-}

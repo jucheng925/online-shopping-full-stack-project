@@ -2,10 +2,10 @@ import React, {useContext, useState} from 'react'
 import { UserContext } from '../context/UserContext'
 import { useNavigate } from 'react-router-dom'
 import ItemPurchase from './ItemPurchase'
-import Button from '@mui/material/Button';
 import EditNoteIcon from '@mui/icons-material/EditNote';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import CancelIcon from '@mui/icons-material/Cancel';
+import {StyledButton, RedStyledButton} from '../StyledButton';
 
 const ItemShow = ({item, onUpdateItem}) => {
   const {currentUser} = useContext(UserContext)
@@ -20,31 +20,23 @@ const ItemShow = ({item, onUpdateItem}) => {
       <p><strong>Purchased {item.purchases.length} times </strong></p>
       { showPurchaseOption ? <ItemPurchase item={item} onUpdateItem={onUpdateItem} setShowPurchaseOption={setShowPurchaseOption}/> : null}
       {currentUser.isAdmin ? 
-            <Button variant="contained" 
-                    size="medium" 
-                    style={{width:"40%", margin:"15px 0"}} 
-                    color="success" startIcon={<EditNoteIcon />}  
+            <StyledButton 
+                    startIcon={<EditNoteIcon />}  
                     onClick = {() => {navigate(`/stores/${item.store_id}/edititem`, {state: item})}}>
-               Edit
-            </Button>
+               Edit Item
+            </StyledButton>
           : <>
             {showPurchaseOption ? 
-              <Button variant="contained" 
-                  size="medium" 
-                  style={{width:"40%"}} 
-                  color="success" 
+              <RedStyledButton 
                   startIcon={<CancelIcon/>} 
                   onClick={()=> setShowPurchaseOption(!showPurchaseOption)}>
                 Cancel Transaction
-              </Button> :
-              <Button variant="contained" 
-                    size="medium" 
-                    style={{width:"40%"}} 
-                    color="success" 
+              </RedStyledButton> :
+              <StyledButton 
                     startIcon={<ShoppingCartIcon />} 
                     onClick={()=> setShowPurchaseOption(!showPurchaseOption)}>
                 Buy Item
-              </Button>}
+              </StyledButton>}
             </>}
     </div>
   )

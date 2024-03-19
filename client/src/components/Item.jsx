@@ -1,7 +1,7 @@
 import React, {useState, useContext} from 'react'
 import { UserContext } from '../context/UserContext'
 import ItemShow from './ItemShow'
-import Button from '@mui/material/Button';
+import { RedStyledButton } from '../StyledButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 
 const Item = ({item, handleDelete, onUpdateItem}) => {
@@ -16,9 +16,9 @@ const Item = ({item, handleDelete, onUpdateItem}) => {
       <p>Click on image {showMoreDetails ? "to hide" : "for more"} details </p>
       {showMoreDetails ? <ItemShow item={item} onUpdateItem={onUpdateItem}/> : null}
       {currentUser.isAdmin ? (
-          <Button variant="contained" size="medium" style={{width:"40%",  margin:"3%"}} color="error" startIcon={<DeleteIcon />} onClick={()=>handleDelete(item)}>
+          <RedStyledButton startIcon={<DeleteIcon />} onClick={()=>handleDelete(item)}>
             Delete
-          </Button>
+          </RedStyledButton>
         ): null}
 
     </>

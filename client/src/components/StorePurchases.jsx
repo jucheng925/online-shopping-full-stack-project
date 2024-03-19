@@ -2,6 +2,7 @@ import React, {useContext, useEffect, useState} from 'react'
 import { Outlet, NavLink} from "react-router-dom"
 import { UserContext } from '../context/UserContext'
 
+
 const StorePurchases = () => {
   const {currentUser} = useContext(UserContext)
   const [myStore, setMyStore] = useState([])

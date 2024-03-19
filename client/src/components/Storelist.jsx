@@ -3,6 +3,9 @@ import { UserContext } from '../context/UserContext'
 import Store from './Store'
 import StoreForm from './StoreForm'
 import { Grid } from '@mui/material'
+import AddBusinessIcon from '@mui/icons-material/AddBusiness';
+import CloseIcon from '@mui/icons-material/Close';
+import {StyledButton, RedStyledButton} from '../StyledButton'
 
 
 const Storelist = () => {
@@ -31,7 +34,19 @@ const Storelist = () => {
   const AdminStorePage = () => {
     return (
       <div>
-          <button style={{width:"40%"}} onClick={()=>setShowForm(!showForm)}>{showForm ? "Close Form" : "Create a New Store"}</button>
+          {showForm ? 
+            <RedStyledButton 
+                style={{width:"60%", margin: "2%"}} 
+                size="large" startIcon ={<CloseIcon/>}
+                onClick={()=>setShowForm(!showForm)}>
+            Close Form
+            </RedStyledButton> :
+            <StyledButton  
+                    style={{ width:"60%", margin: "2%"}} 
+                    size="large" startIcon ={<AddBusinessIcon/>}
+                    onClick={()=>setShowForm(!showForm)}>
+                Create a New Store
+              </StyledButton> }
           {showForm ? <StoreForm addStore={addStore}/> : null}
           <h2><strong>My Stores</strong></h2>
           <Grid container spacing={3}>
