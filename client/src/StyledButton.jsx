@@ -15,7 +15,7 @@ const StyledButton = styled(Button) ({
 
 const RedStyledButton = styled(Button) ({
     variant: "contained",
-    backgroundColor:"bf4242",
+    backgroundColor:"#bf4242",
     color:"white",
     size:"medium",
     width:"40%", 
@@ -25,4 +25,4 @@ const RedStyledButton = styled(Button) ({
     }
 })
 
-export {StyledButton, RedStyledButton}
+export default StyledButton

@@ -5,6 +5,7 @@ import { blueGrey } from '@mui/material/colors';
 
 
 const StyledTablerow = styled(TableRow) ({
+  fontSize: 14,
   '&:nth-of-type(odd)': {
     backgroundColor: blueGrey[300],
   },

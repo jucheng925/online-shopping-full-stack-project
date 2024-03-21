@@ -5,7 +5,7 @@ import ItemPurchase from './ItemPurchase'
 import EditNoteIcon from '@mui/icons-material/EditNote';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import CancelIcon from '@mui/icons-material/Cancel';
-import {StyledButton, RedStyledButton} from '../StyledButton';
+import StyledButton from '../StyledButton';
 
 const ItemShow = ({item, onUpdateItem}) => {
   const {currentUser} = useContext(UserContext)
@@ -27,11 +27,12 @@ const ItemShow = ({item, onUpdateItem}) => {
             </StyledButton>
           : <>
             {showPurchaseOption ? 
-              <RedStyledButton 
+              <StyledButton 
+                  style={{backgroundColor:"#bf4242"}}
                   startIcon={<CancelIcon/>} 
                   onClick={()=> setShowPurchaseOption(!showPurchaseOption)}>
                 Cancel Transaction
-              </RedStyledButton> :
+              </StyledButton> :
               <StyledButton 
                     startIcon={<ShoppingCartIcon />} 
                     onClick={()=> setShowPurchaseOption(!showPurchaseOption)}>

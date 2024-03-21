@@ -5,7 +5,7 @@ import StoreForm from './StoreForm'
 import { Grid } from '@mui/material'
 import AddBusinessIcon from '@mui/icons-material/AddBusiness';
 import CloseIcon from '@mui/icons-material/Close';
-import {StyledButton, RedStyledButton} from '../StyledButton'
+import StyledButton from '../StyledButton'
 
 
 const Storelist = () => {
@@ -35,12 +35,12 @@ const Storelist = () => {
     return (
       <div>
           {showForm ? 
-            <RedStyledButton 
-                style={{width:"60%", margin: "2%"}} 
+            <StyledButton 
+                style={{width:"60%", margin: "2%", backgroundColor: "#bf4242"}} 
                 size="large" startIcon ={<CloseIcon/>}
                 onClick={()=>setShowForm(!showForm)}>
             Close Form
-            </RedStyledButton> :
+            </StyledButton> :
             <StyledButton  
                     style={{ width:"60%", margin: "2%"}} 
                     size="large" startIcon ={<AddBusinessIcon/>}

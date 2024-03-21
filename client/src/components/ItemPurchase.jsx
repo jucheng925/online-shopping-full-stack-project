@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
-import { StyledButton } from '../StyledButton';
+import StyledButton from '../StyledButton';
 
 
 const ItemPurchase = ({item, setShowPurchaseOption, onUpdateItem}) => {
