@@ -50,12 +50,14 @@ const ItemPurchase = ({item, setShowPurchaseOption, onUpdateItem}) => {
     <div>
       {item.quantity === 0 ? <p>Sorry, out of stock </p> : 
         <>
+          <form style={{all: "revert"}} onSubmit={handlePurchase}>
           <label htmlFor="amount">How many would you like to buy?  </label>
-          <input type="number" id="amount" min="0" max={item.quantity} value={inputQuantity} onChange={(e)=>setInputQuantity(e.target.value)}/>
-          <StyledButton onClick={handlePurchase} 
+          <input style={{width: "75%"}} type="number" id="amount" min="0" max={item.quantity} value={inputQuantity} onChange={(e)=>setInputQuantity(e.target.value)}/>
+          <StyledButton type="submit"
                   startIcon={<ThumbUpAltIcon/>} >
             Confirm Purchase
           </StyledButton>
+          </form>
         </>
       }
     </div>
