@@ -31,9 +31,9 @@ pipenv install
 ```
 
 To run the react server: `npm run dev` 
-The default port that client side will run is on 5173
+It will be running on the default port 5173.
 
-Check to see if you are in virtual environment. If not, enter the virtual environment by `pipenv shell`. To run the backend server: `python app.py` It will be running on 5555.
+Check to see if you are in virtual environment. If not, enter the virtual environment by `pipenv shell`. To run the backend server `python app.py` which will be running on port 5555.
 
 To prepopulate the database with seed data, run `python seed.py` in the server folder.
 
