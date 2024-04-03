@@ -18,7 +18,7 @@ An item has a one to many relationship with purchases
 
 <img src ="phase-4 project.png"/>
 
-## How to start
+## How to get started
 Install the require packages (client-side):
 ```
 cd client
@@ -63,5 +63,5 @@ All the backend routes are located in the app.py file.
 | /puchases/\<int:userid> | GET the purchases that belong to this userid |
 
 
-## Future Plan
+## Future Plans
 This project is currently functional in development server. Some minor issues need to fix when using production server. Once that is taken care of, this project can be deployed. Currently once a store or item is deleted, the corresponding purchase is also delete due to cascade. Will need to work on a way to disable that feature. Purchases history should still be available even when an item has been deleted from a store. Another future plan is to add Stripe or another payment API to handle payment transactions. Another feature I am thinking about is adding the ability to upload a picture instead of providing the urls (when creating a store or an item).
