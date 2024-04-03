@@ -19,7 +19,8 @@ const ItemPurchase = ({item, setShowPurchaseOption, onUpdateItem}) => {
      .then((data) => onUpdateItem(data))
   }
 
-  const handlePurchase = ()=> {
+  const handlePurchase = (e)=> {
+    e.preventDefault();
     if (inputQuantity === 0) {
       window.alert("Quantity to buy can not be 0. Please try again!")
     } else {
@@ -36,7 +37,7 @@ const ItemPurchase = ({item, setShowPurchaseOption, onUpdateItem}) => {
           }),
         })
         .then(resp => resp.json())
-        .then(data => {
+        .then((data) => {
           handleInventory(data.item)
           setShowPurchaseOption(false)
           window.alert("Thank you for purchasing!!")
