@@ -4,8 +4,7 @@ An online marketplace allowing shoppers to purchase items listed by store owners
 This is a full stack application utilizing React as the frontend and Flask-SQLalchemy as the backend.
 
 ## Models
-![models](phase-4 project.png)
-
+<img src ="phase-4 project.png"/>
 
 
 
