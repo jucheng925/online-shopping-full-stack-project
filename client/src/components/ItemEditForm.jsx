@@ -51,24 +51,24 @@ const ItemEditForm = () => {
       <h1>Edit Item</h1>
       <div className='formcontainer'>
         <hr />
-        <label htmlFor="edit_name"><strong>Item Name: </strong></label>
-        <input type="text" id="edit_name" value={formik.values.name} onChange={formik.handleChange} />
+        <label htmlFor="name"><strong>Item Name: </strong></label>
+        <input type="text" id="name" value={formik.values.name} onChange={formik.handleChange} />
         {displayErrors(formik.errors.name)}
 
-        <label htmlFor="edit_description"><strong>Description: </strong></label>
-        <textarea id="edit_description" cols="55" rows="5" value={formik.values.description} onChange={formik.handleChange}></textarea>
+        <label htmlFor="description"><strong>Description: </strong></label>
+        <textarea id="description" cols="55" rows="5" value={formik.values.description} onChange={formik.handleChange}></textarea>
         {displayErrors(formik.errors.description)}
 
-        <label htmlFor="edit_img_url"><strong>Image URL: </strong></label>
-        <input type="text" id="edit_img_url" value={formik.values.img_url} onChange={formik.handleChange}/>
+        <label htmlFor="img_url"><strong>Image URL: </strong></label>
+        <input type="text" id="img_url" value={formik.values.img_url} onChange={formik.handleChange}/>
         {displayErrors(formik.errors.img_url)}
 
-        <label htmlFor="edit_price"><strong>Price($) : </strong></label>
-        <input type="number" id="edit_price" value={formik.values.price} onChange={formik.handleChange}/>
+        <label htmlFor="price"><strong>Price($) : </strong></label>
+        <input type="number" id="price" value={formik.values.price} onChange={formik.handleChange}/>
         {displayErrors(formik.errors.price)}
 
-        <label htmlFor="edit_quantity"><strong>Inventory Amount: </strong></label>
-        <input type="number" id="edit_quantity" value={formik.values.quantity} onChange={formik.handleChange}/>
+        <label htmlFor="quantity"><strong>Inventory Amount: </strong></label>
+        <input type="number" id="quantity" value={formik.values.quantity} onChange={formik.handleChange}/>
         {displayErrors(formik.errors.quantity)}
 
         <button type="submit">Edit Item </button>
