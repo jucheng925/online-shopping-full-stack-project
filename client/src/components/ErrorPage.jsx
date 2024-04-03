@@ -10,6 +10,9 @@ export default function ErrorPage() {
       <p>Sorry, an unexpected error has occurred.</p>
       <p>
         <i>{error.statusText || error.message}</i>
+        <br />
+        <Link to="/"> Click to return Home
+        </Link>
       </p>
     </div>
   );
