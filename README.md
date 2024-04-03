@@ -1,5 +1,12 @@
-# Project Name Here
-Fill out your project details here in your README.md
+# Onwards Online Shopping
+An online marketplace allowing shoppers to purchase items listed by store owners. Both store owners and shoppers will need their own account to sign in before they are able to view the website content. Store owners will have the ability to add/edit/delete stores and their respective store items. Store owners will be able to view a tablet showcasing all the purchases that were made from their stores. Store items will keep track of how many times it was purchases. Shoppers will have the ability to look through all the available stores and can view items for each store. Shoppers are also able to view their prior purchases.
+
+This is a full stack application utilizing React as the frontend and Flask-SQLalchemy as the backend.
+
+## Models
+![models](phase-4 project.png)
+
+
 
 
 To run the react server:
