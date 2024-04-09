@@ -20,3 +20,7 @@ const UserProvider = ({children}) => {
 }
 
 export { UserContext, UserProvider }
+
+// const addNew puch =>
+// updatePurchases = [...currentUser.purchases, newpurchase]
+// {...currentUser, purchases: updatePurchases}
