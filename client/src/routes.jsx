@@ -5,11 +5,10 @@ import Signup from './components/Signup'
 import ErrorPage from './components/ErrorPage.jsx'
 import Storelist from './components/Storelist.jsx'
 import StorePage from './components/StorePage.jsx'
-import StoreEditForm from './components/StoreEditForm.jsx'
 import ItemEditForm from './components/ItemEditForm.jsx'
 import MyPurchases from './components/MyPurchases.jsx'
-import StorePurchases from './components/StorePurchases.jsx'
-import StorePerformance from './components/StorePerformance.jsx'
+import StorePurchasesList from './components/StoresPurchasesList.jsx'
+
 
 
 const routes = [
@@ -35,10 +34,6 @@ const routes = [
         element: <StorePage/>,
       },
       {
-        path: "/stores/:id/edit",
-        element: <StoreEditForm />
-      },
-      {
         path: "/stores/:id/edititem",
         element: <ItemEditForm />
       },
@@ -48,13 +43,7 @@ const routes = [
       },
       {
         path: "/storepurchases",
-        element: <StorePurchases/>,
-        children: [
-          {          
-            path: "/storepurchases/:id",
-            element: <StorePerformance />
-          }
-        ]
+        element: <StorePurchasesList/>,
       }
     ]
   }

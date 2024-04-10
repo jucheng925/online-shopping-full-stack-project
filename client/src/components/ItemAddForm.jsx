@@ -2,7 +2,7 @@ import React from 'react'
 import * as yup from 'yup'
 import {useFormik} from 'formik'
 
-const ItemAddForm = ({addItem, storeId}) => {
+const ItemAddForm = ({addItem, store, setShowItemForm, showItemForm}) => {
   const formSchema = yup.object().shape({
     name: yup.string().required("Item Name is required").min(3),
     description: yup.string(),
@@ -18,7 +18,7 @@ const ItemAddForm = ({addItem, storeId}) => {
       img_url: "",
       price: 0,
       quantity: 0,
-      store_id: storeId
+      store_id: store.id
     },
     validationSchema: formSchema,
     onSubmit: submitform
@@ -35,7 +35,10 @@ const ItemAddForm = ({addItem, storeId}) => {
       body: JSON.stringify(values),
       })
       .then(resp => resp.json())
-      .then(data => addItem(data))
+      .then(data => {
+        addItem(data);
+        setShowItemForm(!showItemForm)
+      })
   }
   
   const displayErrors =(error) => {

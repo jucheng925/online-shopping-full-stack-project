@@ -4,9 +4,15 @@ import ItemShow from './ItemShow'
 import StyledButton from '../StyledButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 
-const Item = ({item, handleDelete, onUpdateItem}) => {
+const Item = ({item, onDeleteItem, onUpdateItem}) => {
   const {currentUser} = useContext(UserContext)
   const [showMoreDetails, setShowMoreDetails] = useState(false)
+
+  const handleDelete = (item) => {
+    fetch(`/api/items/${item.id}`, {
+      method: "DELETE",
+    }).then(()=> onDeleteItem(item.id))
+  }
 
 
   return (

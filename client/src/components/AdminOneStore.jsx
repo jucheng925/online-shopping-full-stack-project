@@ -3,11 +3,15 @@ import { UserContext } from '../context/UserContext'
 import { useNavigate } from 'react-router-dom'
 import AdminButton from './AdminButton'
 import ItemsList from './ItemsList'
-import AdminAddItem from './AdminAddItem'
+import ItemAddForm from './ItemAddForm';
+import StyledButton from '../StyledButton';
+import AddIcon from '@mui/icons-material/Add';
+import CloseIcon from '@mui/icons-material/Close';
 
-const AdminOneStore = ({store}) => {
+const AdminOneStore = ({store, addItem, onDeleteItem}) => {
   const {currentUser} = useContext(UserContext)
   const [showEditForm, setShowEditForm] = useState(false)
+  const [showItemForm, setShowItemForm] = useState(false)
   const navigate = useNavigate()
 
   const deleteStore =(storeId)=>{
@@ -18,11 +22,6 @@ const AdminOneStore = ({store}) => {
     }
   }
 
-  const addItem = (newItem)=> {
-    const newArray = [...items, newItem]
-    setItems(newArray)
-    setShowForm(false)
-  }
 
   if (currentUser.id !== store.user_id) {
     return (
@@ -37,9 +36,23 @@ const AdminOneStore = ({store}) => {
           showEditForm={showEditForm}
           setShowEditForm={setShowEditForm}
         /> 
-        <ItemsList items={store.items}/>
+
+        <ItemsList items={store.items} onDeleteItem={onDeleteItem}/>
         {/* <ItemsList items={items} onUpdateItem={onUpdateItem} onDeleteItem={onDeleteItem} />  */}
-        <AdminAddItem/>
+        
+        <div>
+          {showItemForm ?  
+          <StyledButton style={{backgroundColor:"#bf4242"}} onClick={()=>setShowItemForm(!showItemForm)} startIcon={<CloseIcon />}>
+            Close Form
+          </StyledButton> : 
+          <StyledButton onClick={()=>setShowItemForm(!showItemForm)} startIcon={<AddIcon />}>
+            Add a New Item
+          </StyledButton>
+          }
+
+          {showItemForm ? <ItemAddForm store={store} addItem={addItem} showItemForm={showItemForm} setShowItemForm={setShowItemForm}/> : null}
+        </div>
+
       </>
     )
   }

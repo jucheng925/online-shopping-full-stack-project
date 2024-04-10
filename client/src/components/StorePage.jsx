@@ -14,7 +14,7 @@ const StorePage = () => {
   const [isLoading, setIsLoading] = useState(false)
 
   useEffect(()=> {
-    setIsLoading(true)
+    setIsLoading(true);
     fetch(`/api/stores/${params.id}`)
     .then(resp=> {
       setIsLoading(false)
@@ -27,14 +27,15 @@ const StorePage = () => {
   )}, [])
 
   const addItem = (newItem)=> {
-    const newArray = [...items, newItem]
-    setItems(newArray)
-    setShowForm(false)
+    const newItemArray = [...store.items, newItem]
+    const updatedStore = {...store, items: newItemArray}
+    setStore(updatedStore)
   }
 
   const onDeleteItem = (deleteItemId)=> {
-    const newItemsList = items.filter((item) => item.id !== deleteItemId)
-    setItems(newItemsList)
+    const newItemsList = store.items.filter((item) => item.id !== deleteItemId)
+    const updatedStore = {...store, items:newItemsList}
+    setStore(updatedStore)
   }
 
   const onUpdateItem = (updatedItem)=> {
@@ -65,7 +66,7 @@ const StorePage = () => {
           <hr />
 
           {currentUser.isAdmin ? 
-            <AdminOneStore store={store}/> 
+            <AdminOneStore store={store} addItem={addItem} onDeleteItem={onDeleteItem}/> 
             :
             <ItemsList items={store.items} /> 
           }
