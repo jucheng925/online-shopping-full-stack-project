@@ -1,19 +1,18 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { UserContext } from '../context/UserContext'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { Notfound } from './ErrorPage'
-import AdminButton from './AdminButton'
+
 import ItemsList from './ItemsList'
-import ItemAddForm from './ItemAddForm'
+import AdminStorePage from './AdminStorePage'
 
 const StorePage = () => {
   const {currentUser} = useContext(UserContext)
-  const params = useParams()
-  const navigate = useNavigate()
-  const [isLoading, setIsLoading] = useState(false)
   const [store, setStore] = useState()
   const [items, setItems] = useState([])
-  const [showForm, setShowForm] = useState(false)
+
+  const params = useParams()
+  const [isLoading, setIsLoading] = useState(false)
 
   useEffect(()=> {
     setIsLoading(true)
@@ -28,13 +27,6 @@ const StorePage = () => {
       }
     } 
   )}, [])
-
-
-  const deleteStore =()=>{
-    fetch(`/api/stores/${params.id}`, {
-    method: "DELETE",
-    }).then(()=>navigate('/stores'))
-  }
 
   const addItem = (newItem)=> {
     const newArray = [...items, newItem]
@@ -73,14 +65,8 @@ const StorePage = () => {
             <p style={{fontStyle:"italic"}}>{store.description}</p>
           </div>
           <hr />
-          {currentUser.isAdmin ? <AdminButton 
-                        deleteStore={deleteStore} 
-                        store={store}
-                        showForm={showForm}
-                        setShowForm={setShowForm}
-                        /> 
-                    : null}
-          {showForm ? <ItemAddForm addItem={addItem} storeId = {store.id}/> : null}
+
+          {currentUser.isAdmin ? <AdminStorePage store={store} setStore={setStore}/> : null}
 
           <div>
             <ItemsList items={items} onUpdateItem={onUpdateItem} onDeleteItem={onDeleteItem} /> 

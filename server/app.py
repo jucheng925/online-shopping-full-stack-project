@@ -20,7 +20,7 @@ class Signup(Resource):
         db.session.commit()
         session["user_id"] = user.id
 
-        return user.to_dict(rules=('-stores', '-purchases')), 201
+        return user.to_dict(), 201
     
     except IntegrityError:
        return {"error": "Username already exist"}, 422
@@ -32,7 +32,7 @@ class CheckSession(Resource):
    def get(self):
       user = User.query.filter(User.id == session.get('user_id')).first()
       if user:
-         return user.to_dict(rules=('-stores', '-purchases')), 200
+         return user.to_dict(), 200
       else:
          return {"message" : "Not Authorized"}, 401
 
@@ -44,7 +44,7 @@ class Login(Resource):
       user = User.query.filter(User.username == username).first()
       if user and user.authenticate(password):
          session["user_id"] = user.id
-         return user.to_dict(rules=('-stores', '-purchases')), 200
+         return user.to_dict(), 200
       else:
          return {"errors": "Incorrect username or password"}, 422
       
@@ -58,7 +58,7 @@ class StoreList(Resource):
       user = User.query.filter(User.id == session.get('user_id')).first()
       if user:
          stores = Store.query.all()
-         stores_dict = [store.to_dict(rules=('-owner', '-items')) for store in stores]
+         stores_dict = [store.to_dict(rules=('-owner',)) for store in stores]
          return stores_dict, 200
       else:
          return {"message" : "Not Authorized"}, 401
@@ -77,18 +77,22 @@ class StoreList(Resource):
          db.session.add(new_store)
          db.session.commit()
 
-         return new_store.to_dict(rules=('-owner', '-items')), 201
+         return new_store.to_dict(rules=('-owner', )), 201
       
       except IntegrityError:
          return {"error": "Store name already exist"}, 422
       
 class StoreById(Resource):
    def get(self, storeid):
-      store = Store.query.filter_by(id=storeid).first()
-      if store:
-         return store.to_dict(rules=('-owner', )), 200
+      user = User.query.filter(User.id == session.get('user_id')).first()
+      if user:
+         store = Store.query.filter_by(id=storeid).first()
+         if store:
+            return store.to_dict(rules=('-owner', )), 200
+         else:
+            return {}, 404
       else:
-         return {}, 404
+         return {"message" : "Not Authorized"}, 401
    
    def delete(self, storeid):
       store = Store.query.filter_by(id=storeid).first()

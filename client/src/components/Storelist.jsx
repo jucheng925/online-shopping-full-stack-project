@@ -33,30 +33,48 @@ const Storelist = () => {
 
   const AdminStorePage = () => {
     return (
-      <div>
-          {showForm ? 
-            <StyledButton 
-                style={{width:"60%", margin: "2%", backgroundColor: "#bf4242"}} 
-                size="large" startIcon ={<CloseIcon/>}
-                onClick={()=>setShowForm(!showForm)}>
-            Close Form
-            </StyledButton> :
-            <StyledButton  
-                    style={{ width:"60%", margin: "2%"}} 
-                    size="large" startIcon ={<AddBusinessIcon/>}
-                    onClick={()=>setShowForm(!showForm)}>
-                Create a New Store
-              </StyledButton> }
-          {showForm ? <StoreForm addStore={addStore}/> : null}
-          <h2><strong>My Stores</strong></h2>
-          <Grid container spacing={3}>
-            {stores.filter((store) => store.user_id === currentUser.id).map((store) => (
-                <Grid key={store.id} item xs={4}>
-                  <Store key={store.id} store={store}></Store>
-                </Grid>
-              ))}
-          </Grid>
-      </div>
+      <>
+        {showForm ? 
+          <StyledButton 
+            style={{width:"60%", margin: "2%", backgroundColor: "#bf4242"}} 
+            size="large" startIcon ={<CloseIcon/>}
+            onClick={()=>setShowForm(!showForm)}>
+          Close Form
+          </StyledButton> :
+          
+          <StyledButton  
+            style={{ width:"60%", margin: "2%"}} 
+            size="large" startIcon ={<AddBusinessIcon/>}
+            onClick={()=>setShowForm(!showForm)}>
+          Create a New Store
+          </StyledButton> 
+        }
+
+        {showForm ? <StoreForm addStore={addStore}/> : null}
+        <h2><strong>My Stores</strong></h2>
+        <Grid container spacing={3}>
+          {stores.filter((store) => store.user_id === currentUser.id).map((store) => (
+            <Grid key={store.id} item xs={4}>
+              <Store key={store.id} store={store}></Store>
+            </Grid>
+          ))}
+        </Grid>
+      </>
+    )
+  }
+
+  const ShopperPage = () => {
+    return( 
+      <>
+        <h2><strong>Available Stores</strong></h2>
+        <Grid container spacing={3}>
+          {stores.map((store) => (
+            <Grid key={store.id} item xs={4}>
+              <Store key={store.id} store={store}></Store>
+            </Grid>
+          ))}
+        </Grid>
+      </>
     )
   }
   
@@ -70,19 +88,9 @@ const Storelist = () => {
       )
     } else {
       return (
-        <div>
-          {currentUser.isAdmin ? <AdminStorePage/> : 
-          <>
-            <h2><strong>Available Stores</strong></h2>
-            <Grid container spacing={3}>
-              {stores.map((store) => (
-                <Grid key={store.id} item xs={4}>
-                  <Store key={store.id} store={store} ></Store>
-                </Grid>
-              ))}
-            </Grid>
-          </> }
-        </div>
+        <>
+          {currentUser.isAdmin ? <AdminStorePage/> : <ShopperPage/> }
+        </>
       )
     }
   } else {

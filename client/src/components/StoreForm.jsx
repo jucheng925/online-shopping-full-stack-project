@@ -46,27 +46,27 @@ const StoreForm = ({addStore}) => {
 
   return (
     <div className='body'>
-    <form onSubmit={formik.handleSubmit}>
-      <h1>Create a New Store</h1>
-      {displayErrors(error)}
-      <div className='formcontainer'>
-        <hr />
-        <label htmlFor="store_name"><strong>Store Name: </strong></label>
-        <input type="text" id="store_name" value={formik.values.store_name} onChange={formik.handleChange} />
-        {displayErrors(formik.errors.store_name)}
+      <form onSubmit={formik.handleSubmit}>
+        <h1>Create a New Store</h1>
+        {displayErrors(error)}
+        <div className='formcontainer'>
+          <hr />
+          <label htmlFor="store_name"><strong>Store Name: </strong></label>
+          <input type="text" id="store_name" value={formik.values.store_name} onChange={formik.handleChange} />
+          {displayErrors(formik.errors.store_name)}
 
-        <label htmlFor="description"><strong>Description: </strong></label>
-        <textarea id="description" cols="55" rows="5" value={formik.values.description} onChange={formik.handleChange}></textarea>
-        {displayErrors(formik.errors.description)}
+          <label htmlFor="description"><strong>Description: </strong></label>
+          <textarea id="description" cols="55" rows="5" value={formik.values.description} onChange={formik.handleChange}></textarea>
+          {displayErrors(formik.errors.description)}
 
-        <label htmlFor="img_url"><strong>Image URL: </strong></label>
-        <input type="text" id="img_url" value={formik.values.img_url} onChange={formik.handleChange}/>
-        {displayErrors(formik.errors.img_url)}
-        <button type="submit">Add Store </button>
-      </div>
-    </form>
+          <label htmlFor="img_url"><strong>Image URL: </strong></label>
+          <input type="text" id="img_url" value={formik.values.img_url} onChange={formik.handleChange}/>
+          {displayErrors(formik.errors.img_url)}
+        
+          <button type="submit"> Add Store </button>
+        </div>
+      </form>
     </div>
- 
   )
 }
 

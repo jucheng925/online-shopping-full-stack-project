@@ -66,7 +66,7 @@ return (
         <button type="submit">Log In</button>
         {displayErrors(error)}
         </div>
-        <p><strong>Not a current user?</strong> <Link to="/signup">Signup</Link></p>
+        <p><strong>Not a current user?</strong> <Link to="/signup">  Signup</Link></p>
     </form>
 
   </div>

@@ -1,13 +1,11 @@
 import React from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import * as yup from 'yup'
 import {useFormik} from 'formik'
 
 
-const StoreEditForm = () => {
+const StoreEditForm = ({store}) => {
   const navigate = useNavigate()
-  const location = useLocation()
-  const store = location.state
 
   const formSchema = yup.object().shape({
     store_name: yup.string().required("Store Name is required").max(20),
@@ -46,7 +44,7 @@ const StoreEditForm = () => {
   return (
     <div className='body'>
     <form onSubmit={formik.handleSubmit}>
-      <h1>Create a New Store</h1>
+      <h1>Update Existing Store</h1>
       <div className='formcontainer'>
         <hr />
         <label htmlFor="store_name"><strong>Store Name: </strong></label>
