@@ -1,8 +1,10 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
+import { UserContext } from '../context/UserContext'
 import * as yup from 'yup'
 import {useFormik} from 'formik'
 
 const StoreForm = ({addStore}) => {
+  const {contextAddStore} = useContext(UserContext)
   const [error, setError] = useState()
 
   const formSchema = yup.object().shape({
@@ -33,7 +35,10 @@ const StoreForm = ({addStore}) => {
       .then(resp => {
         if (resp.ok) {
           resp.json()
-        .then(data => addStore(data))
+        .then(data => {
+          addStore(data);
+          contextAddStore(data)
+        })
          } else {
           setError("Store Name already used")
         }

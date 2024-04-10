@@ -19,8 +19,8 @@ const Storelist = () => {
     fetch("/api/stores")
     .then(resp => resp.json())
     .then(data => {
-          setStores(data)
-          setIsLoading(false)
+          setStores(data);
+          setIsLoading(false);
         })
   }, [])
 

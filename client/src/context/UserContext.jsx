@@ -15,8 +15,13 @@ const UserProvider = ({children}) => {
       setCurrentUser(null);
       navigate("/")
     }
+
+    const contextAddStore = (newStore) => {
+      const updateStores = [...currentUser.stores, newStore]
+      setCurrentUser({...currentUser, stores: updateStores})
+    }
   
-    return <UserContext.Provider value={{currentUser, login, logout}}>{ children }</UserContext.Provider>
+    return <UserContext.Provider value={{currentUser, login, logout, contextAddStore}}>{ children }</UserContext.Provider>
 }
 
 export { UserContext, UserProvider }

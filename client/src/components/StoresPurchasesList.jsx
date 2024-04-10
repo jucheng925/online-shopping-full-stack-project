@@ -9,7 +9,8 @@ const StoresPurchasesList = () => {
 
   if (currentUser) {
     myStores = currentUser.stores
-    
+    console.log(currentUser)
+    console.log(myStores)
     return ( 
       <div>
         <h2>Click on the store to see its performance/purchases history</h2>

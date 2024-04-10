@@ -217,16 +217,7 @@ class PurchasesByUser(Resource):
       purchases_dict = [purchase.to_dict(rules=('-user',)) for purchase in purchases]
       return purchases_dict, 200
    
-# class PurchasesByStore(Resource):
-#    def get(self, storeid):
-#       store = Store.query.filter_by(id = storeid).first()
-#       items = store.items
-#       purchases = []
-#       for item in items:
-#          purchases.extend(Purchase.query.filter_by(item_id = item.id).all())
-#       purchases_dict = [purchase.to_dict() for purchase in purchases]
-#       return purchases_dict, 200
-   
+
 api.add_resource(Signup, '/api/signup')
 api.add_resource(CheckSession, '/api/check_session')
 api.add_resource(Login, '/api/login')
@@ -235,7 +226,6 @@ api.add_resource(StoreList, '/api/stores')
 api.add_resource(StoreById, '/api/stores/<int:storeid>')
 api.add_resource(Items, '/api/items')
 api.add_resource(ItembyId, '/api/items/<int:itemid>')
-# api.add_resource(PurchasesByStore, '/api/purchases/stores/<int:storeid>')
 api.add_resource(Purchases, '/api/purchases')
 api.add_resource(PurchasesByUser, '/api/purchases/<int:userid>')
 
