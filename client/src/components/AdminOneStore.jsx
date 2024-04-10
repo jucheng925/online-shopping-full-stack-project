@@ -2,11 +2,11 @@ import React, {useContext, useState} from 'react'
 import { UserContext } from '../context/UserContext'
 import { useNavigate } from 'react-router-dom'
 import AdminButton from './AdminButton'
-import ItemAddForm from './ItemAddForm'
+import ItemsList from './ItemsList'
+import AdminAddItem from './AdminAddItem'
 
-const AdminStorePage = ({store}) => {
+const AdminOneStore = ({store}) => {
   const {currentUser} = useContext(UserContext)
-  const [showItemForm, setShowItemForm] = useState(false)
   const [showEditForm, setShowEditForm] = useState(false)
   const navigate = useNavigate()
 
@@ -36,13 +36,13 @@ const AdminStorePage = ({store}) => {
           store={store}
           showEditForm={showEditForm}
           setShowEditForm={setShowEditForm}
-          showItemForm={showItemForm}
-          setShowItemForm={setShowItemForm}
         /> 
-        {showItemForm ? <ItemAddForm addItem={addItem} storeId = {store.id}/> : null}
+        <ItemsList items={store.items}/>
+        {/* <ItemsList items={items} onUpdateItem={onUpdateItem} onDeleteItem={onDeleteItem} />  */}
+        <AdminAddItem/>
       </>
     )
   }
 }
 
-export default AdminStorePage
+export default AdminOneStore

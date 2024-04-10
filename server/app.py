@@ -64,23 +64,28 @@ class StoreList(Resource):
          return {"message" : "Not Authorized"}, 401
       
    def post(self):
-      try:
-         data = request.get_json()
-         store_name = data.get("store_name")
-         description = data.get("description")
-         img_url = data.get("img_url")
-         user_id = session.get('user_id')
+      user = User.query.filter(User.id == session.get('user_id')).first()
+      if user.isAdmin:
+         try:
+            data = request.get_json()
+            store_name = data.get("store_name")
+            description = data.get("description")
+            img_url = data.get("img_url")
+            user_id = session.get('user_id')
 
-         new_store = Store(store_name=store_name, description=description, 
-                           img_url=img_url, user_id=user_id)
+            new_store = Store(store_name=store_name, description=description, 
+                              img_url=img_url, user_id=user_id)
+            
+            db.session.add(new_store)
+            db.session.commit()
+
+            return new_store.to_dict(rules=('-owner', )), 201
          
-         db.session.add(new_store)
-         db.session.commit()
-
-         return new_store.to_dict(rules=('-owner', )), 201
+         except IntegrityError:
+            return {"error": "Store name already exist"}, 422
       
-      except IntegrityError:
-         return {"error": "Store name already exist"}, 422
+      else:
+         return {"message" : "Not Authorized"}, 401
       
 class StoreById(Resource):
    def get(self, storeid):
@@ -95,30 +100,39 @@ class StoreById(Resource):
          return {"message" : "Not Authorized"}, 401
    
    def delete(self, storeid):
-      store = Store.query.filter_by(id=storeid).first()
-      db.session.delete(store)
-      db.session.commit()
-      return {}, 204
+      user = User.query.filter(User.id == session.get('user_id')).first()
+      if user.isAdmin:
+         store = Store.query.filter_by(id=storeid).first()
+         db.session.delete(store)
+         db.session.commit()
+         return {}, 204
+      else:
+         return {"message" : "Not Authorized"}, 401
    
    def patch(self, storeid):
-      store = Store.query.filter_by(id=storeid).first()
-      try:
-         data = request.get_json()
-         for attr in data:
-            setattr(store, attr, data.get(attr))
+      user = User.query.filter(User.id == session.get('user_id')).first()
+      if user.isAdmin:
+         store = Store.query.filter_by(id=storeid).first()
+         try:
+            data = request.get_json()
+            for attr in data:
+               setattr(store, attr, data.get(attr))
 
-         db.session.add(store)
-         db.session.commit()
-         return store.to_dict(rules=('-owner', )), 200
-      
-      except IntegrityError:
-         return {"error": "Store name already exist"}, 422
-      
-class StoresByOwner(Resource):
-   def get(self, userid):
-      stores = Store.query.filter_by(user_id = userid).all()
-      stores_dict = [store.to_dict() for store in stores]
-      return stores_dict, 200
+            db.session.add(store)
+            db.session.commit()
+            return store.to_dict(), 200
+         
+         except IntegrityError:
+            return {"error": "Store name already exist"}, 422
+      else:
+         return {"message" : "Not Authorized"}, 401
+
+
+# class StoresByOwner(Resource):
+#    def get(self, userid):
+#       stores = Store.query.filter_by(user_id = userid).all()
+#       stores_dict = [store.to_dict() for store in stores]
+#       return stores_dict, 200
 
    
 class Items(Resource):
@@ -126,34 +140,38 @@ class Items(Resource):
       user = User.query.filter(User.id == session.get('user_id')).first()
       if user:
          items = Item.query.all()
-         items_dict = [item.to_dict(rules =('-store', )) for item in items]
+         items_dict = [item.to_dict() for item in items]
          return items_dict, 200
       else: 
          return {"message" : "Not Authorized"}, 401
       
    def post(self):
-      data = request.get_json()
-      name = data.get("name")
-      description = data.get("description")
-      img_url = data.get("img_url")
-      price = data.get("price")
-      quantity = data.get("quantity")
-      store_id = data.get("store_id")
+      user = User.query.filter(User.id == session.get('user_id')).first()
+      if user.isAdmin:
+         data = request.get_json()
+         name = data.get("name")
+         description = data.get("description")
+         img_url = data.get("img_url")
+         price = data.get("price")
+         quantity = data.get("quantity")
+         store_id = data.get("store_id")
 
-      newItem = Item(name=name, description=description,
-                     img_url=img_url, price=price,
-                     quantity=quantity, store_id=store_id)
-      
-      db.session.add(newItem)
-      db.session.commit()
-      return newItem.to_dict(rules =('-store', )), 201
+         newItem = Item(name=name, description=description,
+                        img_url=img_url, price=price,
+                        quantity=quantity, store_id=store_id)
+         
+         db.session.add(newItem)
+         db.session.commit()
+         return newItem.to_dict(), 201
+      else: 
+         return {"message" : "Not Authorized"}, 401
 
       
 class ItembyId(Resource):
    def get(self, itemid):
       item = Item.query.filter_by(id=itemid).first()
       if item:
-         return item.to_dict(rules =('-store', )), 200
+         return item.to_dict(), 200
       else:
          return {}, 404
       
@@ -164,13 +182,17 @@ class ItembyId(Resource):
       return {}, 204
    
    def patch(self, itemid):
+      user = User.query.filter(User.id == session.get('user_id')).first()
       item = Item.query.filter_by(id=itemid).first()
-      data = request.get_json()
-      for attr in data:
-            setattr(item, attr, data.get(attr))
-      db.session.add(item)
-      db.session.commit()
-      return item.to_dict(rules =('-store', )), 200
+      if user.isAdmin and item.store in user.stores:
+         data = request.get_json()
+         for attr in data:
+               setattr(item, attr, data.get(attr))
+         db.session.add(item)
+         db.session.commit()
+         return item.to_dict(), 200
+      else: 
+         return {"message" : "Not Authorized"}, 401
    
 class Purchases(Resource):
    def get(self):
@@ -215,7 +237,7 @@ api.add_resource(Login, '/api/login')
 api.add_resource(Logout, '/api/logout')
 api.add_resource(StoreList, '/api/stores')
 api.add_resource(StoreById, '/api/stores/<int:storeid>')
-api.add_resource(StoresByOwner, '/api/stores/owner/<int:userid>')
+# api.add_resource(StoresByOwner, '/api/stores/owner/<int:userid>')
 api.add_resource(Items, '/api/items')
 api.add_resource(ItembyId, '/api/items/<int:itemid>')
 api.add_resource(PurchasesByStore, '/api/purchases/stores/<int:storeid>')

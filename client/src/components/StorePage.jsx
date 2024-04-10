@@ -4,12 +4,11 @@ import { useParams } from 'react-router-dom'
 import { Notfound } from './ErrorPage'
 
 import ItemsList from './ItemsList'
-import AdminStorePage from './AdminStorePage'
+import AdminOneStore from './AdminOneStore'
 
 const StorePage = () => {
   const {currentUser} = useContext(UserContext)
   const [store, setStore] = useState()
-  const [items, setItems] = useState([])
 
   const params = useParams()
   const [isLoading, setIsLoading] = useState(false)
@@ -22,7 +21,6 @@ const StorePage = () => {
       if (resp.ok) {
         resp.json().then(store => {
           setStore(store)
-          setItems(store.items)
         })
       }
     } 
@@ -66,11 +64,11 @@ const StorePage = () => {
           </div>
           <hr />
 
-          {currentUser.isAdmin ? <AdminStorePage store={store} setStore={setStore}/> : null}
-
-          <div>
-            <ItemsList items={items} onUpdateItem={onUpdateItem} onDeleteItem={onDeleteItem} /> 
-          </div>
+          {currentUser.isAdmin ? 
+            <AdminOneStore store={store}/> 
+            :
+            <ItemsList items={store.items} /> 
+          }
         </>
       )
     } else {

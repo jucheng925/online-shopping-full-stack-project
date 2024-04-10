@@ -47,7 +47,7 @@ const ItemEditForm = () => {
 
   return (
     <div className='body'>
-    <form onSubmit={formik.handleSubmit}>
+    <form onSubmit={formik.handleSubmit} style={{"width":"100%"}}>
       <h1>Edit Item</h1>
       <div className='formcontainer'>
         <hr />
