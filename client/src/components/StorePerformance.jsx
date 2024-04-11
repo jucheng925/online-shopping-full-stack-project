@@ -25,12 +25,8 @@ const StorePerformance = ({store}) => {
   const storeItems = store.items
   let storePurchases = []
   storeItems.forEach(item => {
-    console.log(item)
-    console.log(item.purchases)
     storePurchases = storePurchases.concat(item.purchases)
   });
-  console.log(storePurchases)
-
 
   return (
     <TableContainer component={Paper} sx={{bgcolor:blueGrey[500], mt:5}}>

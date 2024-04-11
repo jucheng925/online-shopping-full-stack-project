@@ -6,8 +6,6 @@ import { Grid } from '@mui/material'
 const ItemsList = ({items, onDeleteItem, onUpdateItem }) => {
 
 
-
-
   return (
       <div className='container'>
       {items.length == 0 ? <p>Sorry, no items available right now. </p> : 

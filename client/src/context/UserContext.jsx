@@ -20,8 +20,13 @@ const UserProvider = ({children}) => {
       const updateStores = [...currentUser.stores, newStore]
       setCurrentUser({...currentUser, stores: updateStores})
     }
+
+    const contextAddPurchase = (newPurchase) => {
+      const updatePurchases = [...currentUser.purchases, newPurchase]
+      setCurrentUser({...currentUser, purchases: updatePurchases})
+    }
   
-    return <UserContext.Provider value={{currentUser, login, logout, contextAddStore}}>{ children }</UserContext.Provider>
+    return <UserContext.Provider value={{currentUser, login, logout, contextAddStore, contextAddPurchase}}>{ children }</UserContext.Provider>
 }
 
 export { UserContext, UserProvider }

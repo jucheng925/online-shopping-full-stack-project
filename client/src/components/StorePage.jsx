@@ -39,14 +39,15 @@ const StorePage = () => {
   }
 
   const onUpdateItem = (updatedItem)=> {
-    const updatedItems = items.map((item) => {
+    const updatedItems = store.items.map((item) => {
       if (item.id === updatedItem.id) {
         return updatedItem
       } else {
         return item
       }
     });
-    setItems(updatedItems)
+    const updatedStore = {...store, items:updatedItems}
+    setStore(updatedStore)
   }
 
   if (isLoading) {
@@ -68,7 +69,7 @@ const StorePage = () => {
           {currentUser.isAdmin ? 
             <AdminOneStore store={store} addItem={addItem} onDeleteItem={onDeleteItem}/> 
             :
-            <ItemsList items={store.items} /> 
+            <ItemsList items={store.items} onUpdateItem={onUpdateItem}/> 
           }
         </>
       )

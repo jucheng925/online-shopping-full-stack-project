@@ -181,13 +181,20 @@ class ItembyId(Resource):
    def patch(self, itemid):
       user = User.query.filter(User.id == session.get('user_id')).first()
       item = Item.query.filter_by(id=itemid).first()
+      data = request.get_json()
       if user.isAdmin and item.store in user.stores:
-         data = request.get_json()
          for attr in data:
                setattr(item, attr, data.get(attr))
          db.session.add(item)
          db.session.commit()
          return item.to_dict(), 200
+      
+      elif user and len(data) == 1 and "quantity" in data:
+         setattr(item, "quantity", data.get("quantity") )
+         db.session.add(item)
+         db.session.commit()
+         return item.to_dict(), 200
+      
       else: 
          return {"message" : "Not Authorized"}, 401
    
@@ -198,24 +205,29 @@ class Purchases(Resource):
       return purchases_dict, 200
    
    def post(self):
-      data = request.get_json()
-      user_id = session.get('user_id')
-      item_id = data.get("item_id")
-      quantity = data.get("quantity")
-      amt_spent = data.get("amt_spent")
+      user = User.query.filter(User.id == session.get('user_id')).first()
+      if user:
+         data = request.get_json()
+         user_id = session.get('user_id')
+         item_id = data.get("item_id")
+         quantity = data.get("quantity")
+         amt_spent = data.get("amt_spent")
 
-      newPurchase = Purchase(user_id=user_id, item_id=item_id, quantity=quantity, amt_spent=amt_spent)
-      db.session.add(newPurchase)
-      db.session.commit()
+         newPurchase = Purchase(user_id=user_id, item_id=item_id, quantity=quantity, amt_spent=amt_spent)
+         db.session.add(newPurchase)
+         db.session.commit()
+         
+         return newPurchase.to_dict(), 201
       
-      return newPurchase.to_dict(), 201
+      else: 
+         return {"message" : "Not Authorized"}, 401
 
 
-class PurchasesByUser(Resource):
-   def get(self, userid):
-      purchases = Purchase.query.filter_by(user_id = userid).all()
-      purchases_dict = [purchase.to_dict(rules=('-user',)) for purchase in purchases]
-      return purchases_dict, 200
+# class PurchasesByUser(Resource):
+#    def get(self, userid):
+#       purchases = Purchase.query.filter_by(user_id = userid).all()
+#       purchases_dict = [purchase.to_dict(rules=('-user',)) for purchase in purchases]
+#       return purchases_dict, 200
    
 
 api.add_resource(Signup, '/api/signup')
@@ -227,7 +239,7 @@ api.add_resource(StoreById, '/api/stores/<int:storeid>')
 api.add_resource(Items, '/api/items')
 api.add_resource(ItembyId, '/api/items/<int:itemid>')
 api.add_resource(Purchases, '/api/purchases')
-api.add_resource(PurchasesByUser, '/api/purchases/<int:userid>')
+# api.add_resource(PurchasesByUser, '/api/purchases/<int:userid>')
 
 
 @app.route('/')

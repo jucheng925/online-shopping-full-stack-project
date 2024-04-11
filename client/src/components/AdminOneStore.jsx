@@ -38,7 +38,6 @@ const AdminOneStore = ({store, addItem, onDeleteItem}) => {
         /> 
 
         <ItemsList items={store.items} onDeleteItem={onDeleteItem}/>
-        {/* <ItemsList items={items} onUpdateItem={onUpdateItem} onDeleteItem={onDeleteItem} />  */}
         
         <div>
           {showItemForm ?  
