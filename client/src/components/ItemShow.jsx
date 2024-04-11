@@ -1,7 +1,7 @@
 import React, {useContext, useState} from 'react'
 import { UserContext } from '../context/UserContext'
-import { useNavigate } from 'react-router-dom'
 import ItemPurchase from './ItemPurchase'
+import ItemEditForm from './ItemEditForm'
 import EditNoteIcon from '@mui/icons-material/EditNote';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import CancelIcon from '@mui/icons-material/Cancel';
@@ -9,8 +9,8 @@ import StyledButton from '../StyledButton';
 
 const ItemShow = ({item, onUpdateItem}) => {
   const {currentUser} = useContext(UserContext)
-  const navigate = useNavigate()
   const [showPurchaseOption, setShowPurchaseOption] = useState(false)
+  const [showEditForm, setShowEditForm] = useState(false)
 
   return (
     <div>
@@ -22,7 +22,7 @@ const ItemShow = ({item, onUpdateItem}) => {
       {currentUser.isAdmin ? 
             <StyledButton 
                     startIcon={<EditNoteIcon />}  
-                    onClick = {() => {navigate(`/stores/${item.store_id}/edititem`, {state: item})}}>
+                    onClick={()=>setShowEditForm(!showEditForm)} >
                Edit Item
             </StyledButton>
           : <>
@@ -39,6 +39,9 @@ const ItemShow = ({item, onUpdateItem}) => {
                 Buy Item
               </StyledButton>}
             </>}
+      <div id={showEditForm ? 'overlay': 'nooverlay'}>
+        <ItemEditForm item={item} showEditForm={showEditForm} setShowEditForm={setShowEditForm}/>
+      </div>
     </div>
   )
 }

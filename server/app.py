@@ -223,12 +223,6 @@ class Purchases(Resource):
          return {"error" : "Not Authorized"}, 401
 
 
-# class PurchasesByUser(Resource):
-#    def get(self, userid):
-#       purchases = Purchase.query.filter_by(user_id = userid).all()
-#       purchases_dict = [purchase.to_dict(rules=('-user',)) for purchase in purchases]
-#       return purchases_dict, 200
-   
 
 api.add_resource(Signup, '/api/signup')
 api.add_resource(CheckSession, '/api/check_session')
@@ -239,7 +233,6 @@ api.add_resource(StoreById, '/api/stores/<int:storeid>')
 api.add_resource(Items, '/api/items')
 api.add_resource(ItembyId, '/api/items/<int:itemid>')
 api.add_resource(Purchases, '/api/purchases')
-# api.add_resource(PurchasesByUser, '/api/purchases/<int:userid>')
 
 
 @app.route('/')

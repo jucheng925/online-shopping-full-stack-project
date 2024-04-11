@@ -8,6 +8,7 @@
 form {
   border: 5px solid #f1f1f1;
   width: 60%;
+  background-color: black;
 }
 
 input[type=text], input[type=number], input[type=password], textarea {

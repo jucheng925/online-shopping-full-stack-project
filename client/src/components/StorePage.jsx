@@ -11,10 +11,9 @@ const StorePage = () => {
   const [store, setStore] = useState()
 
   const params = useParams()
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
 
   useEffect(()=> {
-    setIsLoading(true);
     fetch(`/api/stores/${params.id}`)
     .then(resp=> {
       setIsLoading(false)

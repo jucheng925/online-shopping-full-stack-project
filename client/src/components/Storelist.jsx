@@ -10,12 +10,11 @@ import StyledButton from '../StyledButton'
 
 const Storelist = () => {
   const {currentUser} = useContext(UserContext)
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
   const [stores, setStores] = useState([])
   const [showForm, setShowForm] = useState(false)
 
   useEffect(()=> {
-    setIsLoading(true)
     fetch("/api/stores")
     .then(resp => resp.json())
     .then(data => {

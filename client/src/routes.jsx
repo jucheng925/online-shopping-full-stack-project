@@ -34,10 +34,6 @@ const routes = [
         element: <StorePage/>,
       },
       {
-        path: "/stores/:id/edititem",
-        element: <ItemEditForm />
-      },
-      {
         path: "/mypurchases",
         element: <MyPurchases/>
       },
