@@ -10,8 +10,9 @@ const Home = () => {
       <h1>ONWARDS</h1>
       <h1>ONLINE SHOPPING</h1>
       <h3>Where you can list items for sale as an Admin or shop for items</h3>
+      <br />
       {currentUser ? 
-          <p>Welcome, {currentUser.username}!</p>
+          <p><strong>Welcome, {currentUser.username}!</strong></p>
           : <Login />}
     </div>
   )

@@ -1,8 +1,10 @@
-import React from 'react'
+import React, {useState} from 'react'
 import * as yup from 'yup'
 import {useFormik} from 'formik'
 
 const ItemAddForm = ({addItem, store, setShowItemForm, showItemForm}) => {
+  const [error, setError] = useState(null)
+
   const formSchema = yup.object().shape({
     name: yup.string().required("Item Name is required").min(3),
     description: yup.string(),
@@ -34,12 +36,17 @@ const ItemAddForm = ({addItem, store, setShowItemForm, showItemForm}) => {
       },
       body: JSON.stringify(values),
       })
-      .then(resp => resp.json())
-      .then(data => {
-        addItem(data);
-        setShowItemForm(!showItemForm)
+      .then(resp => {
+        if (resp.ok) {
+          resp.json().then(data => {
+            addItem(data);
+            setShowItemForm(!showItemForm)
+          })
+        } else {
+          resp.json().then((err)=> setError(err.error))
+        }
       })
-  }
+    }
   
   const displayErrors =(error) => {
     return error ? <p style={{color: "red"}}>{error}</p> : null
@@ -72,6 +79,7 @@ const ItemAddForm = ({addItem, store, setShowItemForm, showItemForm}) => {
         {displayErrors(formik.errors.quantity)}
 
         <button type="submit">Add Item </button>
+        {displayErrors(error)}
       </div>
     </form>
     </div>

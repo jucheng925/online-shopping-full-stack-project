@@ -1,10 +1,13 @@
-import React from 'react'
+import React, {useContext, useState} from 'react'
+import { UserContext } from '../context/UserContext'
 import { useNavigate } from 'react-router-dom'
 import * as yup from 'yup'
 import {useFormik} from 'formik'
 
 
 const StoreEditForm = ({store}) => {
+  const {contextUpdateStore} = useContext(UserContext)
+  const [error, setError] = useState()
   const navigate = useNavigate()
 
   const formSchema = yup.object().shape({
@@ -32,8 +35,17 @@ const StoreEditForm = ({store}) => {
       },
       body: JSON.stringify(values),
       })
-      .then(resp => resp.json())
-      .then(data => navigate('/stores'))
+      .then(resp => {
+        if (resp.ok) {
+          resp.json()
+          .then(data => {
+            contextUpdateStore(data),
+            navigate('/stores')
+          })
+        } else {
+          resp.json().then((err)=> setError(err.error))
+        }
+      })
   }
 
   const displayErrors =(error) => {
@@ -59,6 +71,7 @@ const StoreEditForm = ({store}) => {
         <input type="text" id="img_url" value={formik.values.img_url} onChange={formik.handleChange}/>
         {displayErrors(formik.errors.img_url)}
         <button type="submit">Edit Store </button>
+        {displayErrors(error)}
       </div>
     </form>
     </div>

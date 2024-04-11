@@ -34,7 +34,7 @@ class CheckSession(Resource):
       if user:
          return user.to_dict(), 200
       else:
-         return {"message" : "Not Authorized"}, 401
+         return {"error" : "Not Authorized"}, 401
 
 class Login(Resource):
    def post(self):
@@ -46,12 +46,12 @@ class Login(Resource):
          session["user_id"] = user.id
          return user.to_dict(), 200
       else:
-         return {"errors": "Incorrect username or password"}, 422
+         return {"error": "Incorrect username or password"}, 422
       
 class Logout(Resource):
    def delete(self):
       session["user_id"] = None
-      return {"message": "Log out"}, 204
+      return {"error": "Log out"}, 204
    
 class StoreList(Resource):
    def get(self):
@@ -61,7 +61,7 @@ class StoreList(Resource):
          stores_dict = [store.to_dict(rules=('-owner',)) for store in stores]
          return stores_dict, 200
       else:
-         return {"message" : "Not Authorized"}, 401
+         return {"error" : "Not Authorized"}, 401
       
    def post(self):
       user = User.query.filter(User.id == session.get('user_id')).first()
@@ -85,7 +85,7 @@ class StoreList(Resource):
             return {"error": "Store name already exist"}, 422
       
       else:
-         return {"message" : "Not Authorized"}, 401
+         return {"error" : "Not Authorized"}, 401
       
 class StoreById(Resource):
    def get(self, storeid):
@@ -97,7 +97,7 @@ class StoreById(Resource):
          else:
             return {}, 404
       else:
-         return {"message" : "Not Authorized"}, 401
+         return {"error" : "Not Authorized"}, 401
    
    def delete(self, storeid):
       user = User.query.filter(User.id == session.get('user_id')).first()
@@ -107,7 +107,7 @@ class StoreById(Resource):
          db.session.commit()
          return {}, 204
       else:
-         return {"message" : "Not Authorized"}, 401
+         return {"error" : "Not Authorized"}, 401
    
    def patch(self, storeid):
       user = User.query.filter(User.id == session.get('user_id')).first()
@@ -125,7 +125,7 @@ class StoreById(Resource):
          except IntegrityError:
             return {"error": "Store name already exist"}, 422
       else:
-         return {"message" : "Not Authorized"}, 401
+         return {"error" : "Not Authorized"}, 401
 
    
 class Items(Resource):
@@ -136,7 +136,7 @@ class Items(Resource):
          items_dict = [item.to_dict() for item in items]
          return items_dict, 200
       else: 
-         return {"message" : "Not Authorized"}, 401
+         return {"error" : "Not Authorized"}, 401
       
    def post(self):
       user = User.query.filter(User.id == session.get('user_id')).first()
@@ -157,7 +157,7 @@ class Items(Resource):
          db.session.commit()
          return newItem.to_dict(), 201
       else: 
-         return {"message" : "Not Authorized"}, 401
+         return {"error" : "Not Authorized"}, 401
 
       
 class ItembyId(Resource):
@@ -176,7 +176,7 @@ class ItembyId(Resource):
          db.session.commit()
          return {}, 204
       else: 
-         return {"message" : "Not Authorized"}, 401
+         return {"error" : "Not Authorized"}, 401
    
    def patch(self, itemid):
       user = User.query.filter(User.id == session.get('user_id')).first()
@@ -196,7 +196,7 @@ class ItembyId(Resource):
          return item.to_dict(), 200
       
       else: 
-         return {"message" : "Not Authorized"}, 401
+         return {"error" : "Not Authorized"}, 401
    
 class Purchases(Resource):
    def get(self):
@@ -220,7 +220,7 @@ class Purchases(Resource):
          return newPurchase.to_dict(), 201
       
       else: 
-         return {"message" : "Not Authorized"}, 401
+         return {"error" : "Not Authorized"}, 401
 
 
 # class PurchasesByUser(Resource):

@@ -9,7 +9,7 @@ import AddIcon from '@mui/icons-material/Add';
 import CloseIcon from '@mui/icons-material/Close';
 
 const AdminOneStore = ({store, addItem, onDeleteItem}) => {
-  const {currentUser} = useContext(UserContext)
+  const {currentUser, contextDeleteStore} = useContext(UserContext)
   const [showEditForm, setShowEditForm] = useState(false)
   const [showItemForm, setShowItemForm] = useState(false)
   const navigate = useNavigate()
@@ -17,11 +17,14 @@ const AdminOneStore = ({store, addItem, onDeleteItem}) => {
   const deleteStore =(storeId)=>{
     if (currentUser.isAdmin) {
       fetch(`/api/stores/${storeId}`, {
-      method: "DELETE",
-      }).then(()=>navigate('/stores'))
+        method: "DELETE",
+      })
+      .then(() => (
+        contextDeleteStore(storeId),
+        navigate('/stores')
+      ))
     }
   }
-
 
   if (currentUser.id !== store.user_id) {
     return (

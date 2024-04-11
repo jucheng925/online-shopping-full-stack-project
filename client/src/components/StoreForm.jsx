@@ -34,13 +34,12 @@ const StoreForm = ({addStore}) => {
       })
       .then(resp => {
         if (resp.ok) {
-          resp.json()
-        .then(data => {
-          addStore(data);
-          contextAddStore(data)
-        })
-         } else {
-          setError("Store Name already used")
+          resp.json().then(data => {
+            addStore(data);
+            contextAddStore(data)
+          })
+        } else {
+          resp.json().then((err)=> setError(err.error))
         }
       })
   }
@@ -69,6 +68,7 @@ const StoreForm = ({addStore}) => {
           {displayErrors(formik.errors.img_url)}
         
           <button type="submit"> Add Store </button>
+          {displayErrors(error)}
         </div>
       </form>
     </div>
