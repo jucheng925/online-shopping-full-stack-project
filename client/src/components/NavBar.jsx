@@ -1,15 +1,10 @@
 import React, {useContext} from 'react'
 import { NavLink } from 'react-router-dom'
 import { UserContext } from '../context/UserContext'
+import Logout from './Logout'
 
 const NavBar = () => {
-  const {currentUser, logout} = useContext(UserContext)
-
-  const handleLogout = () => {
-    fetch("/api/logout", {
-      method: "DELETE",
-    }).then(() => logout())
-  }
+  const {currentUser} = useContext(UserContext)
 
   const displaybuttons = () =>{
     return (
@@ -22,10 +17,7 @@ const NavBar = () => {
           My Purchases
         </NavLink>
       }
-      <button className="nav-link" onClick={handleLogout}>
-        Logout
-      </button>
-
+      <Logout/>
     </>
     )
   }
@@ -39,6 +31,7 @@ return (
         Stores
       </NavLink>
       {currentUser ? displaybuttons() : null }
+      
     </nav>
   )
 }

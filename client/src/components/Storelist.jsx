@@ -10,17 +10,16 @@ import StyledButton from '../StyledButton'
 
 const Storelist = () => {
   const {currentUser} = useContext(UserContext)
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
   const [stores, setStores] = useState([])
   const [showForm, setShowForm] = useState(false)
 
   useEffect(()=> {
-    setIsLoading(true)
     fetch("/api/stores")
     .then(resp => resp.json())
     .then(data => {
-          setStores(data)
-          setIsLoading(false)
+          setStores(data);
+          setIsLoading(false);
         })
   }, [])
 
@@ -33,30 +32,48 @@ const Storelist = () => {
 
   const AdminStorePage = () => {
     return (
-      <div>
-          {showForm ? 
-            <StyledButton 
-                style={{width:"60%", margin: "2%", backgroundColor: "#bf4242"}} 
-                size="large" startIcon ={<CloseIcon/>}
-                onClick={()=>setShowForm(!showForm)}>
-            Close Form
-            </StyledButton> :
-            <StyledButton  
-                    style={{ width:"60%", margin: "2%"}} 
-                    size="large" startIcon ={<AddBusinessIcon/>}
-                    onClick={()=>setShowForm(!showForm)}>
-                Create a New Store
-              </StyledButton> }
-          {showForm ? <StoreForm addStore={addStore}/> : null}
-          <h2><strong>My Stores</strong></h2>
-          <Grid container spacing={3}>
-            {stores.filter((store) => store.user_id === currentUser.id).map((store) => (
-                <Grid key={store.id} item xs={4}>
-                  <Store key={store.id} store={store}></Store>
-                </Grid>
-              ))}
-          </Grid>
-      </div>
+      <>
+        {showForm ? 
+          <StyledButton 
+            style={{width:"60%", margin: "2%", backgroundColor: "#bf4242"}} 
+            size="large" startIcon ={<CloseIcon/>}
+            onClick={()=>setShowForm(!showForm)}>
+          Close Form
+          </StyledButton> :
+          
+          <StyledButton  
+            style={{ width:"60%", margin: "2%"}} 
+            size="large" startIcon ={<AddBusinessIcon/>}
+            onClick={()=>setShowForm(!showForm)}>
+          Create a New Store
+          </StyledButton> 
+        }
+
+        {showForm ? <StoreForm addStore={addStore}/> : null}
+        <h2><strong>My Stores</strong></h2>
+        <Grid container spacing={3}>
+          {stores.filter((store) => store.user_id === currentUser.id).map((store) => (
+            <Grid key={store.id} item xs={4}>
+              <Store key={store.id} store={store}></Store>
+            </Grid>
+          ))}
+        </Grid>
+      </>
+    )
+  }
+
+  const ShopperPage = () => {
+    return( 
+      <>
+        <h2><strong>Available Stores</strong></h2>
+        <Grid container spacing={3}>
+          {stores.map((store) => (
+            <Grid key={store.id} item xs={4}>
+              <Store key={store.id} store={store}></Store>
+            </Grid>
+          ))}
+        </Grid>
+      </>
     )
   }
   
@@ -70,19 +87,9 @@ const Storelist = () => {
       )
     } else {
       return (
-        <div>
-          {currentUser.isAdmin ? <AdminStorePage/> : 
-          <>
-            <h2><strong>Available Stores</strong></h2>
-            <Grid container spacing={3}>
-              {stores.map((store) => (
-                <Grid key={store.id} item xs={4}>
-                  <Store key={store.id} store={store} ></Store>
-                </Grid>
-              ))}
-            </Grid>
-          </> }
-        </div>
+        <>
+          {currentUser.isAdmin ? <AdminStorePage/> : <ShopperPage/> }
+        </>
       )
     }
   } else {

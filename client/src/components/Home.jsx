@@ -9,8 +9,11 @@ const Home = () => {
     <div>
       <h1>ONWARDS</h1>
       <h1>ONLINE SHOPPING</h1>
-      <p>Where you can list items for sale as an Admin or shop for items</p>
-      {currentUser ? null: <Login />}
+      <h3>Where you can list items for sale as an Admin or shop for items</h3>
+      <br />
+      {currentUser ? 
+          <p><strong>Welcome, {currentUser.username}!</strong></p>
+          : <Login />}
     </div>
   )
 }

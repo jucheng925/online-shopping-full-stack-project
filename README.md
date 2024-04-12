@@ -51,16 +51,14 @@ All the backend routes are located in the app.py file.
 | /stores/\<int:storeid>| GET the store with this storeid |
 | /stores/\<int:storeid>| DELETE the store with this storeid|
 | /stores/\<int:storeid>| PATCH update the store with this storeid|
-| /stores/owner/\<int:userid>| GET all the stores that is owned by this userid|
 | /items | GET all the items |
-| /items | POST creat a new item|
+| /items | POST create a new item|
 | /items/\<int:itemid> | GET the item with this itemid|
 | /items/\<int:itemid> | DELETE the item with this itemid|
 | /items/\<int:itemid> | PATCH update the item with this itemid|
 | /purchases | GET all the purchases|
 | /purchases | POST create a new purchase|
-| /purchases/stores/\<int:storeid>| GET the purchases that belong to this storeid|
-| /puchases/\<int:userid> | GET the purchases that belong to this userid |
+
 
 
 ## Future Plans

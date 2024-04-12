@@ -1,61 +1,52 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { UserContext } from '../context/UserContext'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { Notfound } from './ErrorPage'
-import AdminButton from './AdminButton'
+
 import ItemsList from './ItemsList'
-import ItemAddForm from './ItemAddForm'
+import AdminOneStore from './AdminOneStore'
 
 const StorePage = () => {
   const {currentUser} = useContext(UserContext)
-  const params = useParams()
-  const navigate = useNavigate()
-  const [isLoading, setIsLoading] = useState(false)
   const [store, setStore] = useState()
-  const [items, setItems] = useState([])
-  const [showForm, setShowForm] = useState(false)
+
+  const params = useParams()
+  const [isLoading, setIsLoading] = useState(true)
 
   useEffect(()=> {
-    setIsLoading(true)
     fetch(`/api/stores/${params.id}`)
     .then(resp=> {
       setIsLoading(false)
       if (resp.ok) {
         resp.json().then(store => {
           setStore(store)
-          setItems(store.items)
         })
       }
     } 
   )}, [])
 
-
-  const deleteStore =()=>{
-    fetch(`/api/stores/${params.id}`, {
-    method: "DELETE",
-    }).then(()=>navigate('/stores'))
-  }
-
   const addItem = (newItem)=> {
-    const newArray = [...items, newItem]
-    setItems(newArray)
-    setShowForm(false)
+    const newItemArray = [...store.items, newItem]
+    const updatedStore = {...store, items: newItemArray}
+    setStore(updatedStore)
   }
 
   const onDeleteItem = (deleteItemId)=> {
-    const newItemsList = items.filter((item) => item.id !== deleteItemId)
-    setItems(newItemsList)
+    const newItemsList = store.items.filter((item) => item.id !== deleteItemId)
+    const updatedStore = {...store, items:newItemsList}
+    setStore(updatedStore)
   }
 
   const onUpdateItem = (updatedItem)=> {
-    const updatedItems = items.map((item) => {
+    const updatedItems = store.items.map((item) => {
       if (item.id === updatedItem.id) {
         return updatedItem
       } else {
         return item
       }
     });
-    setItems(updatedItems)
+    const updatedStore = {...store, items:updatedItems}
+    setStore(updatedStore)
   }
 
   if (isLoading) {
@@ -73,18 +64,12 @@ const StorePage = () => {
             <p style={{fontStyle:"italic"}}>{store.description}</p>
           </div>
           <hr />
-          {currentUser.isAdmin ? <AdminButton 
-                        deleteStore={deleteStore} 
-                        store={store}
-                        showForm={showForm}
-                        setShowForm={setShowForm}
-                        /> 
-                    : null}
-          {showForm ? <ItemAddForm addItem={addItem} storeId = {store.id}/> : null}
 
-          <div>
-            <ItemsList items={items} onUpdateItem={onUpdateItem} onDeleteItem={onDeleteItem} /> 
-          </div>
+          {currentUser.isAdmin ? 
+            <AdminOneStore store={store} addItem={addItem} onDeleteItem={onDeleteItem}/> 
+            :
+            <ItemsList items={store.items} onUpdateItem={onUpdateItem}/> 
+          }
         </>
       )
     } else {

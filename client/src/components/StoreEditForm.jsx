@@ -1,13 +1,14 @@
-import React from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
+import React, {useContext, useState} from 'react'
+import { UserContext } from '../context/UserContext'
+import { useNavigate } from 'react-router-dom'
 import * as yup from 'yup'
 import {useFormik} from 'formik'
 
 
-const StoreEditForm = () => {
+const StoreEditForm = ({store}) => {
+  const {contextUpdateStore} = useContext(UserContext)
+  const [error, setError] = useState()
   const navigate = useNavigate()
-  const location = useLocation()
-  const store = location.state
 
   const formSchema = yup.object().shape({
     store_name: yup.string().required("Store Name is required").max(20),
@@ -34,8 +35,17 @@ const StoreEditForm = () => {
       },
       body: JSON.stringify(values),
       })
-      .then(resp => resp.json())
-      .then(data => navigate('/stores'))
+      .then(resp => {
+        if (resp.ok) {
+          resp.json()
+          .then(data => {
+            contextUpdateStore(data),
+            navigate('/stores')
+          })
+        } else {
+          resp.json().then((err)=> setError(err.error))
+        }
+      })
   }
 
   const displayErrors =(error) => {
@@ -46,7 +56,7 @@ const StoreEditForm = () => {
   return (
     <div className='body'>
     <form onSubmit={formik.handleSubmit}>
-      <h1>Create a New Store</h1>
+      <h1>Update Existing Store</h1>
       <div className='formcontainer'>
         <hr />
         <label htmlFor="store_name"><strong>Store Name: </strong></label>
@@ -61,6 +71,9 @@ const StoreEditForm = () => {
         <input type="text" id="img_url" value={formik.values.img_url} onChange={formik.handleChange}/>
         {displayErrors(formik.errors.img_url)}
         <button type="submit">Edit Store </button>
+        {displayErrors(error)}
+        <br/>
+        <br/>
       </div>
     </form>
     </div>

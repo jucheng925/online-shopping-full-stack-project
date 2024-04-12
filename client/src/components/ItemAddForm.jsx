@@ -1,14 +1,16 @@
-import React from 'react'
+import React, {useState} from 'react'
 import * as yup from 'yup'
 import {useFormik} from 'formik'
 
-const ItemAddForm = ({addItem, storeId}) => {
+const ItemAddForm = ({addItem, store, setShowItemForm, showItemForm}) => {
+  const [error, setError] = useState(null)
+
   const formSchema = yup.object().shape({
     name: yup.string().required("Item Name is required").min(3),
     description: yup.string(),
     img_url: yup.string(),
     price: yup.number().required("Price is required. Can not be left blank").min(0),
-    quantity: yup.number("Quantity amount is required. Can not be left blank").required().min(0)
+    quantity: yup.number().integer().required("Quantity amount is required. Can not be left blank").min(0)
   });
 
   const formik = useFormik({
@@ -18,7 +20,7 @@ const ItemAddForm = ({addItem, storeId}) => {
       img_url: "",
       price: 0,
       quantity: 0,
-      store_id: storeId
+      store_id: store.id
     },
     validationSchema: formSchema,
     onSubmit: submitform
@@ -34,9 +36,17 @@ const ItemAddForm = ({addItem, storeId}) => {
       },
       body: JSON.stringify(values),
       })
-      .then(resp => resp.json())
-      .then(data => addItem(data))
-  }
+      .then(resp => {
+        if (resp.ok) {
+          resp.json().then(data => {
+            addItem(data);
+            setShowItemForm(!showItemForm)
+          })
+        } else {
+          resp.json().then((err)=> setError(err.error))
+        }
+      })
+    }
   
   const displayErrors =(error) => {
     return error ? <p style={{color: "red"}}>{error}</p> : null
@@ -69,6 +79,7 @@ const ItemAddForm = ({addItem, storeId}) => {
         {displayErrors(formik.errors.quantity)}
 
         <button type="submit">Add Item </button>
+        {displayErrors(error)}
       </div>
     </form>
     </div>

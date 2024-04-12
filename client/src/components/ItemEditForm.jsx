@@ -1,19 +1,18 @@
 import React from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
 import * as yup from 'yup'
 import {useFormik} from 'formik'
+import CancelIcon from '@mui/icons-material/Cancel';
+import StyledButton from '../StyledButton';
 
-const ItemEditForm = () => {
-  const navigate = useNavigate()
-  const location = useLocation()
-  const item = location.state
+
+const ItemEditForm = ({item, setShowEditForm, showEditForm}) => {
 
   const formSchema = yup.object().shape({
     name: yup.string().required("Item Name is required").min(3),
     description: yup.string(),
     img_url: yup.string(),
     price: yup.number().required("Price is required. Can not be left blank").min(0),
-    quantity: yup.number("Quantity amount is required. Can not be left blank").required().min(0)
+    quantity: yup.number().integer().required("Quantity amount is required. Can not be left blank").min(0)
   });
 
   const formik = useFormik({
@@ -47,33 +46,40 @@ const ItemEditForm = () => {
 
   return (
     <div className='body'>
-    <form onSubmit={formik.handleSubmit}>
-      <h1>Edit Item</h1>
-      <div className='formcontainer'>
-        <hr />
-        <label htmlFor="name"><strong>Item Name: </strong></label>
-        <input type="text" id="name" value={formik.values.name} onChange={formik.handleChange} />
-        {displayErrors(formik.errors.name)}
+      <form onSubmit={formik.handleSubmit}>
+        <StyledButton 
+          style={{backgroundColor:"#bf4242"}}
+          startIcon={<CancelIcon/>} 
+          onClick={()=> setShowEditForm(!showEditForm)}>
+          Close Form
+        </StyledButton>
+      
+        <h1>Edit Item</h1>
+        <div className='formcontainer'>
+          <hr />
+          <label htmlFor="name"><strong>Item Name: </strong></label>
+          <input type="text" id="name" value={formik.values.name} onChange={formik.handleChange} />
+          {displayErrors(formik.errors.name)}
 
-        <label htmlFor="description"><strong>Description: </strong></label>
-        <textarea id="description" cols="55" rows="5" value={formik.values.description} onChange={formik.handleChange}></textarea>
-        {displayErrors(formik.errors.description)}
+          <label htmlFor="description"><strong>Description: </strong></label>
+          <textarea id="description" cols="55" rows="5" value={formik.values.description} onChange={formik.handleChange}></textarea>
+          {displayErrors(formik.errors.description)}
 
-        <label htmlFor="img_url"><strong>Image URL: </strong></label>
-        <input type="text" id="img_url" value={formik.values.img_url} onChange={formik.handleChange}/>
-        {displayErrors(formik.errors.img_url)}
+          <label htmlFor="img_url"><strong>Image URL: </strong></label>
+          <input type="text" id="img_url" value={formik.values.img_url} onChange={formik.handleChange}/>
+          {displayErrors(formik.errors.img_url)}
 
-        <label htmlFor="price"><strong>Price($) : </strong></label>
-        <input type="number" id="price" value={formik.values.price} onChange={formik.handleChange}/>
-        {displayErrors(formik.errors.price)}
+          <label htmlFor="price"><strong>Price($) : </strong></label>
+          <input type="number" id="price" value={formik.values.price} onChange={formik.handleChange}/>
+          {displayErrors(formik.errors.price)}
 
-        <label htmlFor="quantity"><strong>Inventory Amount: </strong></label>
-        <input type="number" id="quantity" value={formik.values.quantity} onChange={formik.handleChange}/>
-        {displayErrors(formik.errors.quantity)}
+          <label htmlFor="quantity"><strong>Inventory Amount: </strong></label>
+          <input type="number" id="quantity" value={formik.values.quantity} onChange={formik.handleChange}/>
+          {displayErrors(formik.errors.quantity)}
 
-        <button type="submit">Edit Item </button>
-      </div>
-    </form>
+          <button type="submit">Edit Item </button>
+        </div>
+      </form>
     </div>
   )
 }

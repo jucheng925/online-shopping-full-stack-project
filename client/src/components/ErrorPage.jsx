@@ -2,7 +2,6 @@ import { useRouteError, Link } from "react-router-dom";
 
 export default function ErrorPage() {
   const error = useRouteError();
-  console.error(error);
 
   return (
     <div id="error-page">
@@ -10,6 +9,7 @@ export default function ErrorPage() {
       <p>Sorry, an unexpected error has occurred.</p>
       <p>
         <i>{error.statusText || error.message}</i>
+        <br />
         <br />
         <Link to="/"> Click to return Home
         </Link>
