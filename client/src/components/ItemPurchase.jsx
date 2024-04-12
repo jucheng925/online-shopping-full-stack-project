@@ -7,11 +7,11 @@ import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
 import StyledButton from '../StyledButton';
 
 
-const ItemPurchase = ({item, onUpdateItem}) => {
+const ItemPurchase = ({item, onUpdateItem, setShowPurchaseOption, showPurchaseOption}) => {
   const {contextAddPurchase}= useContext(UserContext)
 
   const formSchema = yup.object().shape({
-    input_quantity: yup.number().min(1).max(item.quantity).required("Please input a quantity or cancel transaction.")
+    input_quantity: yup.number().integer().min(1).max(item.quantity).required("Please input a quantity or cancel transaction.")
   });
 
   const formik = useFormik({
@@ -40,7 +40,7 @@ const ItemPurchase = ({item, onUpdateItem}) => {
         contextAddPurchase(data);
         handleInventory(data.item, values.input_quantity);
         window.alert("Thank you for purchasing!!");
-        formik.resetForm()
+        setShowPurchaseOption(!showPurchaseOption)
       })
     }
   

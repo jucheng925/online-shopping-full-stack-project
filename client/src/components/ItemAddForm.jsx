@@ -10,7 +10,7 @@ const ItemAddForm = ({addItem, store, setShowItemForm, showItemForm}) => {
     description: yup.string(),
     img_url: yup.string(),
     price: yup.number().required("Price is required. Can not be left blank").min(0),
-    quantity: yup.number().required("Quantity amount is required. Can not be left blank").min(0)
+    quantity: yup.number().integer().required("Quantity amount is required. Can not be left blank").min(0)
   });
 
   const formik = useFormik({

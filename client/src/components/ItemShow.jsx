@@ -18,7 +18,8 @@ const ItemShow = ({item, onUpdateItem}) => {
       <p>Price: ${item.price}</p>
       <p>Inventory Available: {item.quantity}</p>
       <p><strong>Purchased {item.purchases.length} times </strong></p>
-      { showPurchaseOption ? <ItemPurchase item={item} onUpdateItem={onUpdateItem} /> : null}
+      { showPurchaseOption ? <ItemPurchase item={item} setShowPurchaseOption={setShowPurchaseOption} 
+                      showPurchaseOption={showPurchaseOption} onUpdateItem={onUpdateItem} /> : null}
       {currentUser.isAdmin ? 
             <StyledButton 
                     startIcon={<EditNoteIcon />}  
