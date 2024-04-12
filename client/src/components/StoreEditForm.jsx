@@ -72,6 +72,8 @@ const StoreEditForm = ({store}) => {
         {displayErrors(formik.errors.img_url)}
         <button type="submit">Edit Store </button>
         {displayErrors(error)}
+        <br/>
+        <br/>
       </div>
     </form>
     </div>

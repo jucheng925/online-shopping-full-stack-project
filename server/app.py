@@ -53,7 +53,7 @@ class Logout(Resource):
       session["user_id"] = None
       return {"error": "Log out"}, 204
    
-class StoreList(Resource):
+class Stores(Resource):
    def get(self):
       user = User.query.filter(User.id == session.get('user_id')).first()
       if user:
@@ -228,7 +228,7 @@ api.add_resource(Signup, '/api/signup')
 api.add_resource(CheckSession, '/api/check_session')
 api.add_resource(Login, '/api/login')
 api.add_resource(Logout, '/api/logout')
-api.add_resource(StoreList, '/api/stores')
+api.add_resource(Stores, '/api/stores')
 api.add_resource(StoreById, '/api/stores/<int:storeid>')
 api.add_resource(Items, '/api/items')
 api.add_resource(ItembyId, '/api/items/<int:itemid>')
