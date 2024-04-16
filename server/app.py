@@ -1,5 +1,5 @@
 from flask_restful import Resource
-from flask import request, session, render_template
+from flask import request, session, render_template, jsonify, make_response
 from sqlalchemy.exc import IntegrityError
 
 from config import app, db, api
@@ -221,6 +221,23 @@ class Purchases(Resource):
       
       else: 
          return {"error" : "Not Authorized"}, 401
+      
+
+
+class ItemMostPopular(Resource):
+   def get(self):
+      items = Item.query.all()
+      most_popular = items[0]
+      for item in items:
+         count_purchase = len(item.purchases)
+         if len(most_popular.purchases) < count_purchase:
+            most_popular = item
+
+      return most_popular.to_dict(), 200
+      
+#  2-3 mins of videos and show VSC code, screencreen, 
+
+api.add_resource(ItemMostPopular, '/api/itemmostpopular')
 
 
 

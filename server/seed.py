@@ -109,5 +109,11 @@ if __name__ == "__main__":
 					   user=kim,
 					   item = board_game)
 		
-		db.session.add_all([purchase1, purchase2, purchase3])
+		purchase4 = Purchase(amt_spent = 60,
+					   quantity = 2,
+					   user=kim,
+					   item = board_game)
+		
+		
+		db.session.add_all([purchase1, purchase2, purchase3, purchase4])
 		db.session.commit()

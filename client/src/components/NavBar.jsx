@@ -22,7 +22,14 @@ const NavBar = () => {
     )
   }
 
+  const showPopular = () => {
+    fetch("api/itemmostpopular")
+    .then((resp)=>resp.json())
+    .then(data => console.log(data))
+  }
+
 return (
+  <>
     <nav style={{margin: 10}}>
       <NavLink to= "/" className="nav-link">
         Home
@@ -33,6 +40,8 @@ return (
       {currentUser ? displaybuttons() : null }
       
     </nav>
+    <button onClick={showPopular}>Click me</button>
+    </>
   )
 }
 

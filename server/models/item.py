@@ -18,7 +18,7 @@ class Item(db.Model, SerializerMixin):
     store = db.relationship('Store', back_populates="items")
 
     purchases = db.relationship('Purchase', back_populates="item", cascade="all, delete-orphan")
-    user = association_proxy('purchases', 'user')
+    users = association_proxy('purchases', 'users')
 
     serialize_rules =('-store.items', '-store')
 
